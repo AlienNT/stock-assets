@@ -4,7 +4,7 @@ import {
     BaseResponseInterface,
     ColorsType,
     ImageType
-} from "./BaseSearchTypes.ts";
+} from "./BasicTypes.ts";
 
 
 export interface ImageRequestInterface extends BaseRequestInterface{

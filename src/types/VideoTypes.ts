@@ -1,4 +1,4 @@
-import {BaseHitInterface, BaseRequestInterface, BaseResponseInterface, VideoType} from "./BaseSearchTypes.ts";
+import {BaseHitInterface, BaseRequestInterface, BaseResponseInterface, VideoType} from "./BasicTypes.ts";
 
 export interface VideoResponseFieldsInterface {
     url: string,
