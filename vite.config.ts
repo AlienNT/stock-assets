@@ -28,6 +28,9 @@ export default defineConfig(({mode, command}) => {
                     autoprefixer({})
                 ]
             }
+        },
+        optimizeDeps: {
+            exclude:['vue-flex-waterfall']
         }
     }
 })

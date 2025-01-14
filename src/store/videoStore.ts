@@ -27,39 +27,40 @@ export function useVideoStore() {
         state.hits = [...state.hits, ...videos]
     }
 
-    async function fetchVideos(params: VideoRequestInterface) {
+    function fetchVideos() {
         const {request, uploadProgress, downloadProgress, isLoading} = useApiRequest()
 
-        let page = params.page || 1
+        async function apiRequest(params: VideoRequestInterface) {
+            let page = params.page || 1
 
-        if (videos.value) {
-            const canLoadNext = !isLastPage({
-                total: total.value,
-                perPage: params.per_page || 20, // default API value
-                page
-            })
-            if (canLoadNext) {
-                page++
+            if (videos.value) {
+                const canLoadNext = !isLastPage({
+                    total: total.value,
+                    perPage: params.per_page || 20, // default API value
+                    page
+                })
+                if (canLoadNext) {
+                    page++
+                }
             }
+            await request<VideoRequestInterface, VideoResponseInterface>({
+                url: 'videos/',
+                params: {
+                    ...params,
+                    page
+                }
+
+            }).then(({data}) => {
+                const {hits, totalHits, total} = data
+                addVideos(hits)
+                state.totalHits = totalHits
+                state.total = total
+
+            }).catch(error => console.log(error))
         }
 
-        await request<VideoRequestInterface, VideoResponseInterface>({
-            url: 'videos/',
-            params: {
-                ...params,
-                page
-            }
-
-        }).then(({data}) => {
-            const {hits, totalHits, total} = data
-            addVideos(hits)
-            state.totalHits = totalHits
-            state.total = total
-
-        }).catch(error => console.log(error))
-
         return {
-            request, uploadProgress, downloadProgress, isLoading,
+            request: apiRequest, uploadProgress, downloadProgress, isLoading,
         }
     }
 
