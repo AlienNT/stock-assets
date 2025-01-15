@@ -43,7 +43,7 @@ export function useVideoStore() {
                     page++
                 }
             }
-            await request<VideoRequestInterface, VideoResponseInterface>({
+            return await request<VideoRequestInterface, VideoResponseInterface>({
                 url: 'videos/',
                 params: {
                     ...params,
@@ -64,6 +64,25 @@ export function useVideoStore() {
         }
     }
 
+    function fetchVideo() {
+        const {request, uploadProgress, downloadProgress, isLoading} = useApiRequest()
+
+        async function apiRequest(params: VideoRequestInterface): Promise<VideoResponseInterface | void> {
+            return await request<VideoRequestInterface, VideoResponseInterface>({
+                url: 'videos/',
+                params
+
+            }).then(({data}) => {
+                const {hits, totalHits, total} = data
+                return {hits, totalHits, total}
+
+            }).catch(error => console.log(error))
+        }
+        return {
+            request: apiRequest, uploadProgress, downloadProgress, isLoading,
+        }
+    }
+
     return {
         videos,
         videoById,
@@ -72,5 +91,6 @@ export function useVideoStore() {
         addVideos,
         setVideos,
         fetchVideos,
+        fetchVideo
     }
 }
