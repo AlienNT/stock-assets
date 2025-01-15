@@ -15,8 +15,12 @@ export interface ImageRequestInterface extends BaseRequestInterface{
 }
 
 export interface ImageHitInterface extends BaseHitInterface{
-    previewURL: string,
-    webformatURL: string,
-    largeImageURL: string,
+    previewURL?: string,
+    webformatURL?: string,
+    largeImageURL?: string,
+    previewWidth?: number,
+    previewHeight?: number,
+    webformatHeight?: number,
+    webformatWidth?: number,
 }
 export interface ImageResponseInterface extends BaseResponseInterface<ImageHitInterface>{}

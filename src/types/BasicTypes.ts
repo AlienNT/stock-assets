@@ -93,13 +93,13 @@ export interface BaseResponseInterface<HitInterface> {
 }
 
 export interface BaseHitInterface {
-    id: number,
-    pageURL: string,
-    views: number,
-    downloads: number,
-    likes: number,
-    comments: number,
-    user_id: number,
-    user: string,
-    userImageURL: string
+    id?: number,
+    pageURL?: string,
+    views?: number,
+    downloads?: number,
+    likes?: number,
+    comments?: number,
+    user_id?: number,
+    user?: string,
+    userImageURL?: string
 }

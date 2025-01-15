@@ -9,18 +9,22 @@ export interface VideoResponseFieldsInterface {
 }
 
 export interface VideoRequestInterface extends BaseRequestInterface {
-    video_type: VideoType
+    video_type?: VideoType
+}
+
+export interface VideoHitVideosInterface {
+    large?: VideoResponseFieldsInterface,
+    medium?: VideoResponseFieldsInterface,
+    small?: VideoResponseFieldsInterface,
+    tiny?: VideoResponseFieldsInterface,
 }
 
 export interface VideoHitInterface extends BaseHitInterface {
     type: VideoType,
     tags: string,
     duration: number,
-    videos: {
-        large?: VideoResponseFieldsInterface,
-        medium?: VideoResponseFieldsInterface,
-        small?: VideoResponseFieldsInterface,
-        tiny?: VideoResponseFieldsInterface,
-    }
+    videos: VideoHitVideosInterface
 }
-export interface VideoResponseInterface extends BaseResponseInterface<VideoHitInterface> {}
+
+export interface VideoResponseInterface extends BaseResponseInterface<VideoHitInterface> {
+}
