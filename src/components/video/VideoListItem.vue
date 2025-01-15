@@ -41,9 +41,6 @@ function onBlur(e: MouseEvent) {
   }
 }
 
-function onPlaying(e) {
-}
-
 function onTimeUpdate(e: Event) {
   const target = e.target as HTMLVideoElement
   state.currentTime = formattedTime(target.currentTime)
