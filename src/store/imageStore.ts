@@ -26,20 +26,50 @@ export function useImageStore() {
         state.hits = [...state.hits, ...images]
     }
 
-    async function fetchImages(params: ImageRequestInterface, isPaginated: boolean = false) {
+    function fetchImages() {
         const {request, uploadProgress, downloadProgress, isLoading} = useApiRequest()
-        await request<ImageRequestInterface, ImageResponseInterface>({params})
-            .then(({data}) => {
+
+        async function apiRequest(params: ImageRequestInterface) {
+            return await request<ImageRequestInterface, ImageResponseInterface>({
+                params
+            }).then(({data}) => {
                 const {hits, totalHits, total} = data
-                isPaginated ? setImages(hits) : addImages(hits)
+                addImages(hits)
                 state.totalHits = totalHits
                 state.total = total
-            })
-            .catch((error) => {
+
+                return {hits, totalHits, total}
+
+            }).catch((error) => {
                 console.error(error)
             })
+        }
+
         return {
-            request,
+            request: apiRequest,
+            uploadProgress,
+            downloadProgress,
+            isLoading
+        }
+    }
+
+    function fetchImage() {
+        const {request, uploadProgress, downloadProgress, isLoading} = useApiRequest()
+
+        async function apiRequest(params: ImageRequestInterface) {
+            return await request<ImageRequestInterface, ImageResponseInterface>({
+                params
+            }).then(({data}) => {
+                const {hits, totalHits, total} = data
+                return {hits, totalHits, total}
+
+            }).catch((error) => {
+                console.error(error)
+            })
+        }
+
+        return {
+            request: apiRequest,
             uploadProgress,
             downloadProgress,
             isLoading
@@ -47,6 +77,6 @@ export function useImageStore() {
     }
 
     return {
-        images, imageById, addImages, fetchImages, setImages, totalImages, total
+        images, imageById, addImages, fetchImages, setImages, totalImages, total, fetchImage
     }
 }
