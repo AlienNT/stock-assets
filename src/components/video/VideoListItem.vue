@@ -74,7 +74,6 @@ function formattedTime(number: number): string {
             :autoplay="state.isPlaying"
             @mouseenter="onHover"
             @mouseleave="onBlur"
-            @playing="onPlaying"
             @timeupdate="onTimeUpdate"
         >
           <source :src="src"/>
