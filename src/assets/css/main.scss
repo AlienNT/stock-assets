@@ -1,2 +1,10 @@
 @use 'normalize';
 @use 'animations';
+
+.container {
+  max-width: 1400px;
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 0 auto;
+}
