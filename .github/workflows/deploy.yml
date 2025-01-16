@@ -39,7 +39,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_API_KEY: ${{ vars.VITE_API_KEY }}
+          VITE_API_KEY: '48209963-0ea4fc9d198776751340d1214'
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
