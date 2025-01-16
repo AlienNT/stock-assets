@@ -1,52 +1,75 @@
 <script setup lang="ts">
+import {computed, onMounted, reactive, watch} from "vue";
 import {useImageStore} from "@/store/imageStore.ts";
-import {onMounted, reactive} from "vue";
-import LoaderDotted from "@/components/UI/LoaderDotted.vue";
+import {useUtils} from "@/composables/useUtils.ts";
+import {isLastPage} from "@/helpers/requestHelper.ts";
+import {useConfig} from "@/composables/useConfig.ts";
 import ImageList from "@/components/image/ImageList.vue";
 
-const {fetchImages, images, totalImages} = useImageStore()
+const {fetchImages, images, totalImages, setImages} = useImageStore()
+const {appConfig} = useConfig()
+const {searchQuery} = useUtils()
 const {request, isLoading} = fetchImages()
 
 const state = reactive({
   page: 1,
-  perPage: 20,
 })
 
 onMounted(() => {
   loadImages()
 })
 
+const canLoadMore = computed(() => {
+  return !images.value.length || !isLastPage({
+    perPage: appConfig.value.IMAGE_REQUEST_PER_PAGE,
+    page: state.page,
+    total: totalImages.value
+  })
+})
+
 function loadImages() {
-  if (totalImages.value <= state.page * state.page) return
+  if (isLoading.value || !canLoadMore.value) return;
 
   request({
-    per_page: state.perPage,
+    per_page: appConfig.value.IMAGE_REQUEST_PER_PAGE,
     page: state.page
   })
 }
+
 function onScrolled() {
   state.page++
   loadImages()
 }
 
+watch(() => searchQuery.value, (value, oldValue) => {
+  if (value && value !== oldValue) {
+    console.log({value, oldValue})
+    state.page = 1
+    setImages([])
+    loadImages()
+  }
+})
+
 </script>
 
 <template>
   <section class="images-page">
-   <div class="container">
-     <ImageList
-         :images="images"
-         @on-scrolled="onScrolled"
-     />
-     <div class="counter">
-       <transition appear name="fade">
-         <LoaderDotted v-if="isLoading"/>
-       </transition>
-     </div>
-   </div>
+    <div class="container">
+      <ImageList
+          :images="images"
+          :is-loading="isLoading"
+          @on-scrolled="onScrolled"
+      />
+    </div>
   </section>
 </template>
 
 <style scoped>
-
+.images-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
 </style>
