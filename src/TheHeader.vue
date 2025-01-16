@@ -1,14 +1,23 @@
 <script setup lang="ts">
-import {useRouter} from "vue-router";
-import {onMounted, Ref, ref} from "vue";
+import {onMounted, reactive, Ref, ref} from "vue";
 import {setCSSProperty} from "@/helpers/formatHelper.ts";
+import {useUtils} from "@/composables/useUtils.ts";
+import PagesNavigation from "@/components/navigation/PagesNavigation.vue";
+import SearchField from "@/components/UI/SearchField.vue";
 
-const {back} = useRouter()
-function historyBack(){
-  back()
-}
 
 const header: Ref<HTMLElement> = ref(null) as unknown as Ref<HTMLElement>
+
+const state = reactive({
+  searchValue: "",
+})
+
+const {setSearchQuery} = useUtils()
+
+function onSubmit() {
+  console.log('onSubmit', state.searchValue)
+  setSearchQuery(state.searchValue)
+}
 
 onMounted(() => {
   setCSSProperty('--headerH', `${header.value.offsetHeight}px`)
@@ -17,15 +26,24 @@ onMounted(() => {
 
 <template>
 <header class="header" ref="header">
-  <ul>
-    <li>
-      <router-link :to="{name: 'Images'}">Images</router-link>
-    </li>
-    <li>
-      <router-link :to="{name: 'Videos'}">Videos</router-link>
-    </li>
-  </ul>
-  <button class="back" type="button" @click="historyBack">back</button>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="logo"/>
+      </div>
+      <div class="col">
+        <PagesNavigation/>
+      </div>
+      <div class="col">
+        <form class="search-form" @submit.prevent="onSubmit">
+          <SearchField
+              :value="state.searchValue"
+              @on-change="e => state.searchValue = e"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
 </header>
 </template>
 
