@@ -3,12 +3,12 @@ import {RouteRecordRaw} from "vue-router";
 const routes = [
     {
         path: '/',
-        name: 'Home',
+        name: 'Images',
         component: () => import('@/pages/ImagesPage.vue')
     },
     {
         path: '/Images/:id',
-        name: 'Images',
+        name: 'Image',
         component: () => import('@/pages/ImageDetailPage.vue')
     },
     {
