@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {onBeforeUnmount, onMounted} from "vue";
 import {VirtualWaterfall} from "@lhlyu/vue-virtual-waterfall";
+import LoaderDotted from "@/components/UI/LoaderDotted.vue";
+import SearchNotFound from "@/components/UI/SearchNotFound.vue";
 
 export interface MasonryTemplateProps {
   items: any[],
@@ -10,7 +12,8 @@ export interface MasonryTemplateProps {
   rowKey?: string,
   calcItemHeight?: (item: any, itemWith: number) => number,
   virtual?: boolean,
-  itemMinWidth?: number
+  itemMinWidth?: number,
+  isLoading?: boolean
 }
 
 withDefaults(defineProps<MasonryTemplateProps>(), {
@@ -19,6 +22,7 @@ withDefaults(defineProps<MasonryTemplateProps>(), {
   minColumnCount: 1,
   rowKey: "id",
   itemMinWidth: 240,
+  isLoading: false,
   calcItemHeight: () => 250,
 })
 
@@ -46,6 +50,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="container">
     <VirtualWaterfall
+        v-if="items.length"
         :items="items"
         :gap="gap"
         :maxColumnCount="maxColumnCount"
@@ -57,10 +62,18 @@ onBeforeUnmount(() => {
     >
       <template #default="{item}:{item: any}">
         <transition appear name="fade">
-          <slot name="content" :item="item"/>
+          <slot
+              name="content"
+              :item="item"
+          />
         </transition>
       </template>
     </VirtualWaterfall>
+    <LoaderDotted
+        v-else-if="isLoading"
+        class="video-loader"
+    />
+    <SearchNotFound v-else/>
   </div>
 </template>
 
