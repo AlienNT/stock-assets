@@ -1,12 +1,15 @@
 import {computed, reactive} from "vue";
 import {apiConfig} from "../configs/apiConfig.ts";
 import axios, {AxiosProgressEvent, AxiosResponse} from "axios";
+import {useUtils} from "@/composables/useUtils.ts";
 
 export interface ApiRequestInterface<RequestInterface> {
     method?: 'GET',
     params?: RequestInterface,
     url?: string,
 }
+
+const {searchQuery} = useUtils()
 
 export function useApiRequest() {
     const state = reactive({
@@ -32,7 +35,7 @@ export function useApiRequest() {
             baseURL: apiConfig.API_URL,
             method,
             url,
-            params: {...params, key: apiConfig.API_KEY},
+            params: {...params, key: apiConfig.API_KEY, q: searchQuery.value},
             onDownloadProgress(progressEvent: AxiosProgressEvent) {
                 state.onDownloadProgress = progressEvent
             },
