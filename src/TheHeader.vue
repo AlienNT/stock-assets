@@ -19,10 +19,10 @@ onMounted(() => {
 <header class="header" ref="header">
   <ul>
     <li>
-      <router-link to="/">Images</router-link>
+      <router-link to="./">Images</router-link>
     </li>
     <li>
-      <router-link to="/videos">Videos</router-link>
+      <router-link to="./videos">Videos</router-link>
     </li>
   </ul>
   <button class="back" type="button" @click="historyBack">back</button>
