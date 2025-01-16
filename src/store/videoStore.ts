@@ -83,6 +83,12 @@ export function useVideoStore() {
         }
     }
 
+    function resetStore(){
+        state.hits = []
+        state.totalHits = undefined as unknown as number
+        state.total = undefined as unknown as number
+    }
+
     return {
         videos,
         videoById,
@@ -90,6 +96,7 @@ export function useVideoStore() {
         total,
         addVideos,
         setVideos,
+        resetStore,
         fetchVideos,
         fetchVideo
     }
