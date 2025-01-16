@@ -10,7 +10,7 @@ export default defineConfig(({mode, command}) => {
 
     const base = command === 'build' && !VITE_BASE_URL ?
         '/stock-assets/' :
-        VITE_BASE_URL
+        VITE_BASE_URL || '/'
 
     console.log({ base, VITE_API_KEY, mode, command })
 
