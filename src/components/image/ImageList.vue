@@ -6,7 +6,8 @@ import {calcHeight} from "@/helpers/templateHelper.ts";
 import {useConfig} from "@/composables/useConfig.ts";
 
 export interface ImageListPropsInterface {
-  images: ImageHitInterface[]
+  images: ImageHitInterface[],
+  isLoading: boolean;
 }
 
 defineProps<ImageListPropsInterface>()
@@ -30,6 +31,7 @@ function calcItemHeight(item: ImageHitInterface, itemWidth: number): number {
         :max-column-count="appConfig.IMAGE_LIST_COLUMNS_MAX"
         :min-column-count="appConfig.IMAGE_LIST_COLUMNS_MIN"
         :gap="appConfig.IMAGE_LIST_GAP"
+        :is-loading="isLoading"
         :calc-item-height="calcItemHeight"
         @on-scrolled="emit('onScrolled')"
     >
