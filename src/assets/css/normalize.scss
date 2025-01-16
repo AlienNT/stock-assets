@@ -12,3 +12,18 @@ img, video {
   display: block;
   width: 100%;
 }
+
+label, input {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
