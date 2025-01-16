@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import {onMounted, reactive} from "vue";
+import {computed, onMounted, reactive, watch} from "vue";
 import {useVideoStore} from "@/store/videoStore.ts";
+import {useUtils} from "@/composables/useUtils.ts";
+import {isLastPage} from "@/helpers/requestHelper.ts";
+import {useConfig} from "@/composables/useConfig.ts";
 import VideoList from "@/components/video/VideoList.vue";
-import LoaderDotted from "@/components/UI/LoaderDotted.vue";
 
 
-const {videos, fetchVideos, totalVideos} = useVideoStore()
+const {videos, fetchVideos, totalVideos, resetStore} = useVideoStore()
+const {appConfig} = useConfig()
 
 const state = reactive({
   page: 1,
-  perPage: 10,
+  perPage: appConfig.value.VIDEO_REQUEST_PER_PAGE,
 })
 
 onMounted(() => {
@@ -24,15 +27,33 @@ function onScrolled() {
 }
 
 const {request, isLoading} = fetchVideos()
+const {searchQuery} = useUtils()
+
+const canLoadMore = computed(() => {
+  return !videos.value.length || !isLastPage({
+    perPage: appConfig.value.VIDEO_REQUEST_PER_PAGE,
+    page: state.page,
+    total: totalVideos.value
+  })
+})
 
 function loadVideos() {
-  if (totalVideos.value <= state.page * state.perPage) return;
+  if (isLoading.value || !canLoadMore.value) return;
 
   request({
-    per_page: state.perPage,
+    per_page: appConfig.value.VIDEO_REQUEST_PER_PAGE,
     page: state.page,
   })
 }
+
+watch(() => searchQuery.value, (value, oldValue) => {
+  if (value && value !== oldValue) {
+    console.log({value, oldValue})
+    state.page = 1
+    resetStore()
+    loadVideos()
+  }
+})
 
 </script>
 
@@ -40,26 +61,29 @@ function loadVideos() {
   <section class="videos-page">
     <div class="container">
       <VideoList
+          v-if="videos.length"
           :videos="videos"
           @on-scrolled="onScrolled"
       />
-      <transition appear name="fade">
-        <LoaderDotted
-            v-if="isLoading"
-            class="video-loader"
-        />
-      </transition>
     </div>
   </section>
 </template>
 
 <style scoped lang="scss">
 @use '../assets/css/animations.scss';
-.video-loader{
-  position: fixed;
-  z-index: 3;
-  bottom: 15px;
-  left: 0;
+
+.videos-page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-loader {
+  padding-top: 20px;
+  padding-bottom: 20px;
   transition: .5s ease;
 }
+
+
 </style>
