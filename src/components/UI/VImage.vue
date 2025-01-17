@@ -12,6 +12,7 @@ export interface ImageProps {
   useTransition?: boolean,
   transitionDuration?: number,
   minWidth?: string,
+  minHeight?: string,
 }
 
 const props = withDefaults(defineProps<ImageProps>(), {
@@ -31,6 +32,7 @@ const style = computed(() => [
   props.background ? `background: ${props.background}` : '',
   props.useTransition ? `transition: ease ${props.transitionDuration / 1000}s` : '',
   props.minWidth ? `min-width: ${props.minWidth}` : '',
+  props.minHeight ? `min-height: ${props.minHeight}` : '',
 ].join('; '))
 </script>
 
