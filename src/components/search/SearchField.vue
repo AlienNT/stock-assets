@@ -44,9 +44,15 @@ function onChange(e: Event) {
 
 $fieldBGColor: #d6d6d6;
 .search {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+
   input {
+    font-size: 16px;
     width: 100%;
-    padding: 5px 15px;
+    padding: 10px 20px;
     border-radius: 50px;
     background: $fieldBGColor;
     transition: background 0.2s ease, color 0.2s ease;
