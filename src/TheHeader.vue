@@ -1,22 +1,17 @@
 <script setup lang="ts">
-import {onMounted, reactive, Ref, ref} from "vue";
+import {onMounted, Ref, ref} from "vue";
 import {setCSSProperty} from "@/helpers/formatHelper.ts";
 import {useUtils} from "@/composables/useUtils.ts";
 import PagesNavigation from "@/components/navigation/PagesNavigation.vue";
-import SearchField from "@/components/UI/SearchField.vue";
-
+import VLogo from "@/components/UI/VLogo.vue";
+import SearchForm from "@/components/search/SearchForm.vue";
 
 const header: Ref<HTMLElement> = ref(null) as unknown as Ref<HTMLElement>
 
-const state = reactive({
-  searchValue: "",
-})
-
 const {setSearchQuery} = useUtils()
 
-function onSubmit() {
-  console.log('onSubmit', state.searchValue)
-  setSearchQuery(state.searchValue)
+function onSearch(searchValue: string): void {
+  setSearchQuery(searchValue)
 }
 
 onMounted(() => {
@@ -25,26 +20,23 @@ onMounted(() => {
 </script>
 
 <template>
-<header class="header" ref="header">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <div class="logo"/>
-      </div>
-      <div class="col">
-        <PagesNavigation/>
-      </div>
-      <div class="col">
-        <form class="search-form" @submit.prevent="onSubmit">
-          <SearchField
-              :value="state.searchValue"
-              @on-change="e => state.searchValue = e"
+  <header class="header" ref="header">
+    <div class="container">
+      <div class="row">
+        <div class="col logo-col">
+          <VLogo/>
+        </div>
+        <div class="col search-col">
+          <SearchForm
+              @on-search="onSearch"
           />
-        </form>
+        </div>
+        <div class="col navigation-col">
+          <PagesNavigation/>
+        </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>
 </template>
 
 <style scoped>
@@ -55,5 +47,12 @@ onMounted(() => {
   background: #000;
   padding: 15px;
   z-index: 1;
+
+  .row {
+    justify-content: space-between;
+  }
+}
+.search-col {
+  flex: 1;
 }
 </style>
