@@ -1,6 +1,25 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
-import {reactive} from "vue";
+import {computed, reactive} from "vue";
+import imagesHelper from "@/helpers/imagesHelper.ts";
+
+export interface NavigationInterface {
+  name: string,
+  path: string,
+  title: string,
+}
+
+export interface PageNavigationPropsInterface {
+  navigation?: NavigationInterface[],
+  showBackButton?: boolean,
+  backButtonText?: string,
+}
+
+const props = withDefaults(defineProps<PageNavigationPropsInterface>(), {
+  backButtonText: 'back',
+  showBackButton: true,
+  showBackButtonText: true
+})
 
 const {back} = useRouter()
 
@@ -18,27 +37,43 @@ const state = reactive({
     }
   ]
 })
+
+const navigationList = computed(() => {
+  return props.navigation || state.navigation;
+})
+
+const buttonStyle = computed(() => [
+  imagesHelper.BACK ? `background-image: ${imagesHelper.BACK}` : ''
+].join('; '))
+
 </script>
 
 <template>
-<nav class="pages-navigation">
-  <ul class="pages-navigation-list">
-    <li
-        v-for="{name, title} in state.navigation"
-        :key="name"
-        class="pages-navigation-list__item"
+  <nav class="pages-navigation">
+    <button
+        class="back-button"
+        type="button"
+        :style="buttonStyle"
+        @click="back()"
     >
-      <router-link
-          :to="{name}"
-          class="router-link"
-          active-class="router-link--active"
+      back
+    </button>
+    <ul class="pages-navigation-list">
+      <li
+          v-for="{name, title} in navigationList"
+          :key="name"
+          class="pages-navigation-list__item"
       >
-        {{title}}
-      </router-link>
-    </li>
-  </ul>
-  <button class="back" type="button" @click="back()">back</button>
-</nav>
+        <router-link
+            :to="{name}"
+            class="router-link"
+            active-class="router-link--active"
+        >
+          {{ title }}
+        </router-link>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <style scoped lang="scss">
@@ -49,10 +84,12 @@ const state = reactive({
   height: 100%;
   align-items: center;
 }
+
 .pages-navigation-list {
   display: flex;
   gap: 15px;
 }
+
 .router-link {
   color: #bababa;
   font-family: monospace;
@@ -60,7 +97,13 @@ const state = reactive({
   font-weight: bold;
   font-size: 16px;
 }
+
 .router-link--active, .router-link:hover {
   color: #ffffff;
+}
+
+.back-button {
+  background-position: left center;
+  background-size: contain;
 }
 </style>
