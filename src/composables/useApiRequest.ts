@@ -1,7 +1,8 @@
 import {computed, reactive} from "vue";
 import {apiConfig} from "../configs/apiConfig.ts";
 import axios, {AxiosProgressEvent, AxiosResponse} from "axios";
-import {useUtils} from "@/composables/useUtils.ts";
+
+import {useSearch} from "@/composables/useSearch.ts";
 
 export interface ApiRequestInterface<RequestInterface> {
     method?: 'GET',
@@ -9,7 +10,7 @@ export interface ApiRequestInterface<RequestInterface> {
     url?: string,
 }
 
-const {searchQuery} = useUtils()
+const {searchQuery} = useSearch()
 
 export function useApiRequest() {
     const state = reactive({
