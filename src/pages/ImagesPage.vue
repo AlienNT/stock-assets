@@ -20,7 +20,7 @@ onMounted(() => {
 })
 
 const canLoadMore = computed(() => {
-  return !images.value.length || !isLastPage({
+  return !isLastPage({
     perPage: appConfig.value.IMAGE_REQUEST_PER_PAGE,
     page: state.page,
     total: totalImages.value
@@ -28,7 +28,7 @@ const canLoadMore = computed(() => {
 })
 
 function loadImages() {
-  if (isLoading.value || !canLoadMore.value) return;
+  if (isLoading.value) return;
 
   request({
     per_page: appConfig.value.IMAGE_REQUEST_PER_PAGE,
@@ -37,14 +37,23 @@ function loadImages() {
 }
 
 function onScrolled() {
-  state.page++
+  if (!canLoadMore.value || isLoading.value) return;
+
+  setNextPageNumber()
   loadImages()
+}
+
+function setNextPageNumber(page?: number) {
+  state.page = page || state.page + 1;
+}
+
+function resetPageNumber() {
+  state.page = 1;
 }
 
 watch(() => searchQuery.value, (value, oldValue) => {
   if (value && value !== oldValue) {
-    console.log({value, oldValue})
-    state.page = 1
+    resetPageNumber()
     setImages([])
     loadImages()
   }
