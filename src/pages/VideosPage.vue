@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import {computed, onMounted, reactive, watch} from "vue";
 import {useVideoStore} from "@/store/videoStore.ts";
-import {useUtils} from "@/composables/useUtils.ts";
 import {isLastPage} from "@/helpers/requestHelper.ts";
 import {useConfig} from "@/composables/useConfig.ts";
+import {useSearch} from "@/composables/useSearch.ts";
+
 import VideoList from "@/components/video/VideoList.vue";
 
 
 const {videos, fetchVideos, totalVideos, resetStore} = useVideoStore()
 const {appConfig} = useConfig()
+const {searchQuery} = useSearch()
 
 const state = reactive({
   page: 1,
@@ -27,7 +29,6 @@ function onScrolled() {
 }
 
 const {request, isLoading} = fetchVideos()
-const {searchQuery} = useUtils()
 
 const canLoadMore = computed(() => {
   return !videos.value.length || !isLastPage({

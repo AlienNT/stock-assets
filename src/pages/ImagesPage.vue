@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import {computed, onMounted, reactive, watch} from "vue";
 import {useImageStore} from "@/store/imageStore.ts";
-import {useUtils} from "@/composables/useUtils.ts";
 import {isLastPage} from "@/helpers/requestHelper.ts";
 import {useConfig} from "@/composables/useConfig.ts";
+import {useSearch} from "@/composables/useSearch.ts";
 import ImageList from "@/components/image/ImageList.vue";
 
 const {fetchImages, images, totalImages, setImages} = useImageStore()
 const {appConfig} = useConfig()
-const {searchQuery} = useUtils()
+const {searchQuery} = useSearch()
 const {request, isLoading} = fetchImages()
 
 const state = reactive({
