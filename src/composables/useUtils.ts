@@ -6,7 +6,6 @@ const {appConfig} = useConfig()
 const state = reactive({
     isMobileDevice: false as boolean,
     isMobileScreen: false as boolean,
-    searchQuery: null as unknown as string
 })
 
 export function useUtils() {
@@ -16,10 +15,6 @@ export function useUtils() {
 
     const isMobileScreen = computed(() => {
         return state.isMobileScreen;
-    })
-
-    const searchQuery = computed(() => {
-        return state.searchQuery;
     })
 
     function setIsMobileDevice() {
@@ -34,17 +29,11 @@ export function useUtils() {
         return window.innerWidth <= mobileScreenWidth
     }
 
-    function setSearchQuery(query: string) {
-        state.searchQuery = query
-    }
-
     return {
         isMobileDevice,
         isMobileScreen,
         setIsMobileDevice,
         setIsMobileScreen,
         checkIsMobileScreen,
-        searchQuery,
-        setSearchQuery,
     }
 }
