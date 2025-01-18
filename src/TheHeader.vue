@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import {onMounted, Ref, ref} from "vue";
 import {setCSSProperty} from "@/helpers/formatHelper.ts";
-import {useUtils} from "@/composables/useUtils.ts";
+import {useSearch} from "@/composables/useSearch.ts";
+
 import PagesNavigation from "@/components/navigation/PagesNavigation.vue";
 import VLogo from "@/components/UI/VLogo.vue";
 import SearchForm from "@/components/search/SearchForm.vue";
 
 const header: Ref<HTMLElement> = ref(null) as unknown as Ref<HTMLElement>
 
-const {setSearchQuery} = useUtils()
+const {setSearchQuery} = useSearch()
 
 function onSearch(searchValue: string): void {
   setSearchQuery(searchValue)
