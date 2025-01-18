@@ -47,7 +47,7 @@ onMounted(() => {
   width: 100%;
   background: #000;
   padding: 15px;
-  z-index: 1;
+  z-index: 2;
 
   .row {
     justify-content: space-between;
