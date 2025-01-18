@@ -11,6 +11,7 @@ import VideoList from "@/components/video/VideoList.vue";
 const {videos, fetchVideos, totalVideos, resetStore} = useVideoStore()
 const {appConfig} = useConfig()
 const {searchQuery} = useSearch()
+const {request, isLoading} = fetchVideos()
 
 const state = reactive({
   page: 1,
@@ -23,13 +24,6 @@ onMounted(() => {
   }
 })
 
-function onScrolled() {
-  state.page += 1
-  loadVideos()
-}
-
-const {request, isLoading} = fetchVideos()
-
 const canLoadMore = computed(() => {
   return !videos.value.length || !isLastPage({
     perPage: appConfig.value.VIDEO_REQUEST_PER_PAGE,
@@ -38,19 +32,33 @@ const canLoadMore = computed(() => {
   })
 })
 
-function loadVideos() {
-  if (isLoading.value || !canLoadMore.value) return;
+function onScrolled() {
+  if (!canLoadMore.value || isLoading.value) return;
 
+  setNextPageNumber()
+  loadVideos()
+}
+
+function loadVideos() {
   request({
     per_page: appConfig.value.VIDEO_REQUEST_PER_PAGE,
     page: state.page,
   })
 }
 
+function setNextPageNumber(page?: number) {
+  state.page = page || state.page + 1;
+}
+
+function resetPageNumber() {
+  state.page = 1;
+}
+
+
 watch(() => searchQuery.value, (value, oldValue) => {
   if (value && value !== oldValue) {
     console.log({value, oldValue})
-    state.page = 1
+    resetPageNumber()
     resetStore()
     loadVideos()
   }
