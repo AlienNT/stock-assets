@@ -9,5 +9,6 @@ export default {
     LIKE: path + 'public/svg/like-svgrepo-com.svg',
     EXPAND: path + 'public/svg/expand1-svgrepo-com.svg',
     DOWNLOAD: path + 'public/svg/download-svgrepo-com.svg',
-    VIEWS: path + 'public/svg/look-svgrepo-com.svg'
+    VIEWS: path + 'public/svg/look-svgrepo-com.svg',
+    IMAGES_PAGE_POSTER: path + 'public/img/sunset.jpg',
 }
