@@ -19,8 +19,6 @@ onMounted(() => {
 .main {
   display: flex;
   flex-direction: column;
-  padding-top: 50px;
-  padding-bottom: 50px;
   min-height: calc(var(--vh) - var(--headerH));
 }
 </style>
