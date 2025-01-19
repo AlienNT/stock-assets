@@ -18,14 +18,17 @@ const emit = defineEmits(['onChange'])
 
 function onChange(e: Event) {
   const {value} = e.target as HTMLInputElement;
-  console.log('value', value)
   emit('onChange', value)
 }
+
 </script>
 
 <template>
   <div class="search">
-    <label class="search-label">
+    <label
+        class="search-label"
+        :class="disabled && 'disabled'"
+    >
       <input
           :type="type"
           :name="name"
@@ -56,6 +59,11 @@ $fieldBGColor: #d6d6d6;
     border-radius: 50px;
     background: $fieldBGColor;
     transition: background 0.2s ease, color 0.2s ease;
+
+    &[disabled] {
+      user-select: none;
+      pointer-events: none;
+    }
 
     &::placeholder {
       transition: color 0.2s ease;
