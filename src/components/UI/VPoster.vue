@@ -35,6 +35,7 @@ const component = computed(() => {
         :muted="posterType === 'video' && true"
         :loop="posterType === 'video' && true"
         :poster="posterType === 'video' && posterUrl"
+        :alt="posterType==='image' && 'poster image'"
         class="poster-media-container"
     />
     <div class="container">
