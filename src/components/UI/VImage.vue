@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {computed} from "vue";
+import {computed, ref} from "vue";
 
 export interface ImageProps {
   src: string | undefined,
@@ -13,6 +13,7 @@ export interface ImageProps {
   transitionDuration?: number,
   minWidth?: string,
   minHeight?: string,
+  loading?: 'lazy' | 'eager'
 }
 
 const props = withDefaults(defineProps<ImageProps>(), {
@@ -23,7 +24,12 @@ const props = withDefaults(defineProps<ImageProps>(), {
   objectFit: 'contain',
   transitionDuration: 500,
   minWidth: '240px',
+  loading: 'lazy'
 })
+
+const emit = defineEmits(['onLoad'])
+
+const isLoad = ref(false)
 
 const style = computed(() => [
   props.width ? `width: ${props.width}` : '',
@@ -34,14 +40,22 @@ const style = computed(() => [
   props.minWidth ? `min-width: ${props.minWidth}` : '',
   props.minHeight ? `min-height: ${props.minHeight}` : '',
 ].join('; '))
+
+function onLoad() {
+  isLoad.value = true
+  emit('onLoad')
+}
 </script>
 
 <template>
   <div class="image-wrapper">
     <img
+        :class="isLoad && 'show'"
         :style="style"
         :src="props.src"
         :alt="alt"
+        :loading="loading"
+        @load="onLoad"
     >
   </div>
 </template>
@@ -51,5 +65,13 @@ const style = computed(() => [
   display: flex;
   justify-content: center;
   flex: 1;
+}
+img {
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.show {
+  opacity: 1;
 }
 </style>
