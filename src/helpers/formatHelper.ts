@@ -22,3 +22,11 @@ export function getExtension(string: string): string {
 export function setCSSProperty(property: string, value: string): void {
     document.documentElement.style.setProperty(property, value);
 }
+
+export function delay(time: number, func?: Function) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(func && func())
+        }, time)
+    })
+}
