@@ -3,9 +3,11 @@ import {ImageHitInterface} from "@/types/ImageTypes.ts";
 import ImageItem from "@/components/image/ImageItem.vue";
 
 export interface ImageListItemPropsInterface extends ImageHitInterface {
+  // tags?: string
 }
 
 defineProps<ImageListItemPropsInterface>()
+defineEmits(['onTagClick'])
 
 </script>
 
@@ -20,6 +22,11 @@ defineProps<ImageListItemPropsInterface>()
         :webformat-u-r-l="webformatURL"
         :preview-width="previewWidth"
         :preview-height="previewHeight"
+        :tags="tags"
+        :views="views"
+        :downloads="downloads"
+        :likes="likes"
+        @on-tag-click="e => $emit('onTagClick', e)"
     />
   </router-link>
 </template>
