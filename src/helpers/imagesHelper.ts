@@ -11,4 +11,5 @@ export default {
     DOWNLOAD: path + 'svg/download-svgrepo-com.svg',
     VIEWS: path + 'svg/look-svgrepo-com.svg',
     IMAGES_PAGE_POSTER: path + 'img/sunset.webp',
+    LOGO: path + 'svg/logo.svg',
 }
