@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import VImage from "@/components/UI/VImage.vue";
+import imagesHelper from "@/helpers/imagesHelper.ts";
 
 export interface LogoPropsInterface {
   src?: string;
   link?: string;
+  background?: string;
 }
 
 withDefaults(defineProps<LogoPropsInterface>(), {
-  src: '',
+  src: imagesHelper.LOGO,
   link: '/',
+  background: 'transparent',
 })
 </script>
 
@@ -18,7 +21,7 @@ withDefaults(defineProps<LogoPropsInterface>(), {
       <VImage
           min-width="50px"
           min-height="50px"
-          :background="`#ccc`"
+          :background="background"
           :src="src"
           alt="logo"
       />
@@ -27,5 +30,7 @@ withDefaults(defineProps<LogoPropsInterface>(), {
 </template>
 
 <style scoped lang="scss">
-
+.logo {
+  max-width: 150px;
+}
 </style>
