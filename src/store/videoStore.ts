@@ -2,7 +2,6 @@ import {computed, reactive} from "vue";
 import {StoreInterface} from "@/types/StoreTypes.ts";
 import {VideoHitInterface, VideoRequestInterface, VideoResponseInterface} from "@/types/VideoTypes.ts";
 import {useApiRequest} from "@/composables/useApiRequest.ts";
-import {isLastPage} from "@/helpers/requestHelper.ts";
 
 const state: StoreInterface<VideoHitInterface> = reactive({
     hits: [],
@@ -28,21 +27,11 @@ export function useVideoStore() {
     }
 
     function fetchVideos() {
-        const {request, uploadProgress, downloadProgress, isLoading} = useApiRequest()
+        const {request, isLoading} = useApiRequest()
 
         async function apiRequest(params: VideoRequestInterface) {
             let page = params.page || 1
 
-            if (videos.value) {
-                const canLoadNext = !isLastPage({
-                    total: total.value,
-                    perPage: params.per_page || 20, // default API value
-                    page
-                })
-                if (canLoadNext) {
-                    page++
-                }
-            }
             return await request<VideoRequestInterface, VideoResponseInterface>({
                 url: 'videos/',
                 params: {
@@ -60,12 +49,12 @@ export function useVideoStore() {
         }
 
         return {
-            request: apiRequest, uploadProgress, downloadProgress, isLoading,
+            request: apiRequest, isLoading,
         }
     }
 
     function fetchVideo() {
-        const {request, uploadProgress, downloadProgress, isLoading} = useApiRequest()
+        const {request, isLoading} = useApiRequest()
 
         async function apiRequest(params: VideoRequestInterface): Promise<VideoResponseInterface | void> {
             return await request<VideoRequestInterface, VideoResponseInterface>({
@@ -79,7 +68,7 @@ export function useVideoStore() {
             }).catch(error => console.log(error))
         }
         return {
-            request: apiRequest, uploadProgress, downloadProgress, isLoading,
+            request: apiRequest, isLoading,
         }
     }
 
