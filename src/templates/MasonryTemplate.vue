@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onBeforeUnmount, onMounted} from "vue";
+import {computed, onBeforeUnmount, onMounted} from "vue";
 import {VirtualWaterfall} from "@lhlyu/vue-virtual-waterfall";
 import LoaderDotted from "@/components/UI/LoaderDotted.vue";
 import SearchNotFound from "@/components/UI/SearchNotFound.vue";
@@ -16,7 +16,7 @@ export interface MasonryTemplateProps {
   isLoading?: boolean
 }
 
-withDefaults(defineProps<MasonryTemplateProps>(), {
+const props = withDefaults(defineProps<MasonryTemplateProps>(), {
   gap: 15,
   maxColumnCount: 3,
   minColumnCount: 1,
@@ -37,6 +37,10 @@ function scrollHandler(): void {
   }
 }
 
+const style = computed(() => [
+  !props.isLoading && props.items.length ? `padding-bottom: 150px` : ''
+].join('; '))
+
 onMounted(() => {
   window.addEventListener('scroll', () => scrollHandler())
 
@@ -48,7 +52,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="container">
+  <div :style="style">
     <VirtualWaterfall
         v-if="items.length"
         :items="items"
@@ -61,22 +65,27 @@ onBeforeUnmount(() => {
         :itemMinWidth="itemMinWidth"
     >
       <template #default="{item}:{item: any}">
-        <transition appear name="fade">
+        <transition-group appear name="fade">
           <slot
               name="content"
               :item="item"
           />
-        </transition>
+        </transition-group>
       </template>
     </VirtualWaterfall>
+    <SearchNotFound v-else-if="!isLoading"/>
     <LoaderDotted
-        v-else-if="isLoading"
+        v-show="isLoading"
         class="video-loader"
     />
-    <SearchNotFound v-else/>
   </div>
 </template>
 
 <style scoped lang="scss">
 @use "../assets/css/animations";
+
+.video-loader {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
 </style>
