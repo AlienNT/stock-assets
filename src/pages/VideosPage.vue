@@ -6,6 +6,7 @@ import {useConfig} from "@/composables/useConfig.ts";
 import {useSearch} from "@/composables/useSearch.ts";
 
 import VideoList from "@/components/video/VideoList.vue";
+import VPoster from "@/components/UI/VPoster.vue";
 
 
 const {videos, fetchVideos, totalVideos, resetStore} = useVideoStore()
@@ -67,13 +68,19 @@ watch(() => searchQuery.value, (value, oldValue) => {
 </script>
 
 <template>
+  <VPoster
+      poster-type="video"
+      src="public/video/bg_tiny.mp4"
+      title="Search free stock video footage & clips"
+  />
   <section class="videos-page">
     <div class="container">
-      <VideoList
-          v-if="videos.length"
-          :videos="videos"
-          @on-scrolled="onScrolled"
-      />
+      <div class="row">
+        <VideoList
+            :videos="videos"
+            @on-scrolled="onScrolled"
+        />
+      </div>
     </div>
   </section>
 </template>
