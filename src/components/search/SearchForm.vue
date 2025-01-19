@@ -1,23 +1,27 @@
 <script setup lang="ts">
 
 import SearchField from "@/components/search/SearchField.vue";
-import {reactive} from "vue";
+import {computed, reactive} from "vue";
+import {useSearch} from "@/composables/useSearch.ts";
+import {useRouter} from "vue-router";
 
-const emit = defineEmits(['onSearch']);
+const {setSearchQuery, searchQuery} = useSearch()
+const {currentRoute}=useRouter()
 
 const state = reactive({
   searchValue: "",
 })
 
 function onSubmit() {
-  emit('onSearch', state.searchValue)
+  setSearchQuery(state.searchValue)
 }
 </script>
 
 <template>
   <form class="search-form" @submit.prevent="onSubmit">
     <SearchField
-        :value="state.searchValue"
+        :value="searchQuery"
+        :disabled="isDisabled"
         @on-change="e => state.searchValue = e"
     />
   </form>
@@ -28,5 +32,6 @@ function onSubmit() {
   display: flex;
   flex: 1;
   height: 100%;
+  color: white;
 }
 </style>

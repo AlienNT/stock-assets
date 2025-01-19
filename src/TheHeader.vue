@@ -1,19 +1,12 @@
 <script setup lang="ts">
 import {onMounted, Ref, ref} from "vue";
 import {setCSSProperty} from "@/helpers/formatHelper.ts";
-import {useSearch} from "@/composables/useSearch.ts";
 
 import PagesNavigation from "@/components/navigation/PagesNavigation.vue";
 import VLogo from "@/components/UI/VLogo.vue";
 import SearchForm from "@/components/search/SearchForm.vue";
 
 const header: Ref<HTMLElement> = ref(null) as unknown as Ref<HTMLElement>
-
-const {setSearchQuery} = useSearch()
-
-function onSearch(searchValue: string): void {
-  setSearchQuery(searchValue)
-}
 
 onMounted(() => {
   setCSSProperty('--headerH', `${header.value.offsetHeight}px`)
@@ -28,9 +21,7 @@ onMounted(() => {
           <VLogo/>
         </div>
         <div class="col search-col">
-          <SearchForm
-              @on-search="onSearch"
-          />
+          <SearchForm/>
         </div>
         <div class="col navigation-col">
           <PagesNavigation/>
@@ -53,6 +44,7 @@ onMounted(() => {
     justify-content: space-between;
   }
 }
+
 .search-col {
   flex: 1;
 }
