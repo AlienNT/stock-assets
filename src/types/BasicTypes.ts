@@ -101,5 +101,6 @@ export interface BaseHitInterface {
     comments?: number,
     user_id?: number,
     user?: string,
-    userImageURL?: string
+    userImageURL?: string,
+    tags?: string
 }
