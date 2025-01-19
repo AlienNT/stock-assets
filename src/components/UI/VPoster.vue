@@ -108,7 +108,6 @@ const component = computed(() => {
 .poster__title {
   color: #ededed;
   font-weight: bold;
-  font-family: monospace;
   font-size: 36px;
 }
 
@@ -118,7 +117,6 @@ const component = computed(() => {
   opacity: .6;
 
   a {
-    font-family: monospace;
     color: #ededed;
     border-bottom: 1px solid #ededed;
   }

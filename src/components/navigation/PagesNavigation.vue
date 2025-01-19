@@ -92,7 +92,6 @@ const buttonStyle = computed(() => [
 
 .router-link {
   color: #bababa;
-  font-family: monospace;
   transition: 0.2s ease;
   font-weight: bold;
   font-size: 16px;

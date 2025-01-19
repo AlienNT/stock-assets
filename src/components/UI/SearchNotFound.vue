@@ -16,7 +16,6 @@ withDefaults(defineProps<SearchNotFoundProps>(), {
 
 <style scoped lang="scss">
 .search-not-found {
-  font-family: monospace;
   text-transform: uppercase;
   font-size: 24px;
   text-align: center;
