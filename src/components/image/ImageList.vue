@@ -4,6 +4,7 @@ import ImageListItem from "@/components/image/ImageListItem.vue";
 import {ImageHitInterface} from "@/types/ImageTypes.ts";
 import {calcHeight} from "@/helpers/templateHelper.ts";
 import {useConfig} from "@/composables/useConfig.ts";
+import {useSearch} from "@/composables/useSearch.ts";
 
 export interface ImageListPropsInterface {
   images: ImageHitInterface[],
@@ -14,6 +15,7 @@ defineProps<ImageListPropsInterface>()
 const emit = defineEmits(['onScrolled'])
 
 const {appConfig} = useConfig()
+const {setSearchQuery} = useSearch()
 
 function calcItemHeight(item: ImageHitInterface, itemWidth: number): number {
   return calcHeight({
@@ -39,10 +41,14 @@ function calcItemHeight(item: ImageHitInterface, itemWidth: number): number {
         <ImageListItem
             :id="item.id"
             :views="item.views"
+            :downloads="item.downloads"
+            :likes="item.likes"
             :preview-width="item.previewWidth"
             :preview-height="item.previewHeight"
             :preview-u-r-l="item.previewURL"
             :webformat-u-r-l="item.webformatURL"
+            :tags="item.tags"
+            @on-tag-click="tag => setSearchQuery(tag)"
         />
       </template>
     </MasonryTemplate>
@@ -50,5 +56,7 @@ function calcItemHeight(item: ImageHitInterface, itemWidth: number): number {
 </template>
 
 <style scoped lang="scss">
-
+.image-list {
+  flex: 1;
+}
 </style>
