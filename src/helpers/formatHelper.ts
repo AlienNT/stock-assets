@@ -15,6 +15,23 @@ export function normalizeSize(size: number): string {
     return niceBytes(size)
 }
 
+export function normalizeCounter(size: number): string {
+    const units = ['', 'K', 'M'];
+
+    function niceBytes(x: number): string {
+
+        let l = 0, n = parseInt(String(x), 10) || 0;
+
+        while (n >= 1000 && ++l) {
+            n = n / 1000;
+        }
+
+        return (l > 0 ? Math.trunc(10 * n) / 10 : Math.trunc(n)) + units[l];
+    }
+
+    return niceBytes(size)
+}
+
 export function getExtension(string: string): string {
     return string.substring(string.lastIndexOf('.') + 1);
 }
