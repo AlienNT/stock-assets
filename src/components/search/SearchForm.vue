@@ -12,6 +12,13 @@ const state = reactive({
   searchValue: "",
 })
 
+const enabledRoutes = ["/images", "/videos", '/']
+
+
+const isDisabled = computed(() => {
+  return !enabledRoutes.find(route => route === currentRoute.value.fullPath)
+})
+
 function onSubmit() {
   setSearchQuery(state.searchValue)
 }
