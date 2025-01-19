@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import {computed, onMounted, reactive, watch} from "vue";
+import imagesHelper from "@/helpers/imagesHelper.ts";
 import {useImageStore} from "@/store/imageStore.ts";
 import {isLastPage} from "@/helpers/requestHelper.ts";
 import {useConfig} from "@/composables/useConfig.ts";
 import {useSearch} from "@/composables/useSearch.ts";
+
 import ImageList from "@/components/image/ImageList.vue";
+import VPoster from "@/components/UI/VPoster.vue";
 
 const {fetchImages, images, totalImages, setImages} = useImageStore()
 const {appConfig} = useConfig()
@@ -62,13 +65,20 @@ watch(() => searchQuery.value, (value, oldValue) => {
 </script>
 
 <template>
+  <VPoster
+      title="Search royalty-free stock images"
+      poster-type="image"
+      :src="imagesHelper.IMAGES_PAGE_POSTER"
+  />
   <section class="images-page">
     <div class="container">
-      <ImageList
-          :images="images"
-          :is-loading="isLoading"
-          @on-scrolled="onScrolled"
-      />
+     <div class="row">
+       <ImageList
+           :images="images"
+           :is-loading="isLoading"
+           @on-scrolled="onScrolled"
+       />
+     </div>
     </div>
   </section>
 </template>
