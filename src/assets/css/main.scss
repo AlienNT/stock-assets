@@ -1,8 +1,15 @@
 @use 'normalize';
 @use 'animations';
 
+body {
+  overflow-y: scroll;
+}
+body, :root {
+  min-height: 100%;
+}
+
 .container {
-  max-width: 1400px;
+  max-width: 1800px;
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
@@ -19,4 +26,9 @@
 .col {
   padding-left: 15px;
   padding-right: 15px;
+}
+
+.disabled {
+  user-select: none;
+  pointer-events: none;
 }
