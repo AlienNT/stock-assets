@@ -18,7 +18,12 @@ export function useUtils() {
     })
 
     function setIsMobileDevice() {
-        state.isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
+        const {maxTouchPoints} = navigator
+        const {type, angle} = screen.orientation
+
+        state.isMobileDevice =
+            (type === 'portrait-primary' || maxTouchPoints >= 1 && angle === 0) ||
+            (type === "landscape-primary" && maxTouchPoints >= 1 && angle >= 90)
     }
 
     function setIsMobileScreen(value: boolean = checkIsMobileScreen()) {
