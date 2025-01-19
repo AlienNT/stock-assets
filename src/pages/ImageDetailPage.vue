@@ -46,6 +46,7 @@ onMounted(() => {
               :webformat-u-r-l="state.imageData.webformatURL"
               :webformat-height="state.imageData.webformatHeight"
               :webformat-width="state.imageData.webformatWidth"
+              class="detailed-image"
           />
         </template>
         <template #info>
@@ -64,5 +65,8 @@ onMounted(() => {
 }
 .detailed-page-template {
   flex: 1;
+}
+.detailed-image {
+  max-height: var(--vh);
 }
 </style>
