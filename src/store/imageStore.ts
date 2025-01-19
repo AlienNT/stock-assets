@@ -27,13 +27,14 @@ export function useImageStore() {
     }
 
     function fetchImages() {
-        const {request, uploadProgress, downloadProgress, isLoading} = useApiRequest()
+        const {request, isLoading} = useApiRequest()
 
         async function apiRequest(params: ImageRequestInterface) {
             return await request<ImageRequestInterface, ImageResponseInterface>({
-                params
+                params,
             }).then(({data}) => {
-                const {hits, totalHits, total} = data
+                const {hits, totalHits, total} = {...data}
+
                 addImages(hits)
                 state.totalHits = totalHits
                 state.total = total
@@ -41,20 +42,18 @@ export function useImageStore() {
                 return {hits, totalHits, total}
 
             }).catch((error) => {
-                console.error(error)
+                console.log({error})
             })
         }
 
         return {
-            request: apiRequest,
-            uploadProgress,
-            downloadProgress,
+            request: (params: ImageRequestInterface) => apiRequest(params),
             isLoading
         }
     }
 
     function fetchImage() {
-        const {request, uploadProgress, downloadProgress, isLoading} = useApiRequest()
+        const {request, isLoading} = useApiRequest()
 
         async function apiRequest(params: ImageRequestInterface) {
             return await request<ImageRequestInterface, ImageResponseInterface>({
@@ -70,8 +69,6 @@ export function useImageStore() {
 
         return {
             request: apiRequest,
-            uploadProgress,
-            downloadProgress,
             isLoading
         }
     }
