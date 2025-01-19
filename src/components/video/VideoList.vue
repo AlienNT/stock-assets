@@ -27,15 +27,16 @@ function calcItemHeight(item: VideoHitInterface, itemWidth: number): number {
 </script>
 
 <template>
-  <MasonryTemplate
-      :items="videos"
-      :max-column-count="appConfig.VIDEO_LIST_COLUMNS_MAX"
-      :min-column-count="appConfig.VIDEO_LIST_COLUMNS_MIN"
-      :gap="appConfig.VIDEO_LIST_GAP"
-      :calc-item-height="calcItemHeight"
-      @on-scrolled="emit('onScrolled')"
-  >
-    <template #content="{item}: {item: VideoHitInterface}">
+  <div class="video-list">
+    <MasonryTemplate
+        :items="videos"
+        :max-column-count="appConfig.VIDEO_LIST_COLUMNS_MAX"
+        :min-column-count="appConfig.VIDEO_LIST_COLUMNS_MIN"
+        :gap="appConfig.VIDEO_LIST_GAP"
+        :calc-item-height="calcItemHeight"
+        @on-scrolled="emit('onScrolled')"
+    >
+      <template #content="{item}: {item: VideoHitInterface}">
         <VideoListItem
             class="video-list-item"
             :videos="item.videos"
@@ -52,9 +53,13 @@ function calcItemHeight(item: VideoHitInterface, itemWidth: number): number {
             :id="item.id"
             :page-u-r-l="item.pageURL"
             :user-image-u-r-l="item.userImageURL"/>
-    </template>
-  </MasonryTemplate>
+      </template>
+    </MasonryTemplate>
+  </div>
 </template>
 
 <style scoped lang="scss">
+.video-list {
+  flex: 1;
+}
 </style>
