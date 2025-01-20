@@ -68,12 +68,12 @@ watch(() => searchQuery.value, (value, oldValue) => {
 </script>
 
 <template>
-  <VPoster
-      poster-type="video"
-      src="public/video/bg_tiny.mp4"
-      title="Search free stock video footage & clips"
-  />
-  <section class="videos-page">
+  <section class="page videos-page">
+    <VPoster
+        poster-type="video"
+        src="public/video/bg_tiny.mp4"
+        title="Search free stock video footage & clips"
+    />
     <div class="container">
       <div class="row">
         <VideoList
@@ -87,13 +87,6 @@ watch(() => searchQuery.value, (value, oldValue) => {
 
 <style scoped lang="scss">
 @use '../assets/css/animations.scss';
-
-.videos-page {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .video-loader {
   padding-top: 20px;
