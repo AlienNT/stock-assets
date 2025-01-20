@@ -7,3 +7,13 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+.router-enter-active,
+.router-leave-active {
+  transition: 0.2s ease;
+}
+
+.router-enter-from,
+.router-leave-to {
+  opacity: 0;
+}
