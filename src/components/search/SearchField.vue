@@ -45,20 +45,18 @@ function onChange(e: Event) {
 <style scoped lang="scss">
 @use 'sass:color';
 
-$fieldBGColor: #d6d6d6;
-.search {
+.search, .search-label, .search-field  {
   height: 100%;
   flex: 1;
   display: flex;
-  align-items: center;
-
+}
+.search {
   input {
     font-size: 16px;
     width: 100%;
-    padding: 10px 20px;
-    border-radius: 50px;
-    background: $fieldBGColor;
+    padding: 8px 20px;
     transition: background 0.2s ease, color 0.2s ease;
+    background: transparent;
 
     &[disabled] {
       user-select: none;
@@ -73,10 +71,6 @@ $fieldBGColor: #d6d6d6;
       &::placeholder {
         color: transparent;
       }
-    }
-
-    &:hover {
-      background: color.scale($fieldBGColor, $lightness: 50%);
     }
   }
 }
