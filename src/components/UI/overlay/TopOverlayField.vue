@@ -23,13 +23,23 @@ const displayValue = computed(() => {
       v-if="isShow"
       class="top-overlay-field"
       :class="type"
+      :title="type"
   >
     {{ displayValue }}
   </div>
 </template>
 
 <style scoped lang="scss">
-.views, .downloads, .likes {
+@use 'sass:map';
+
+
+$imageUrls: (
+    views: "../../../../svg/look-svgrepo-com.svg",
+    downloads: "../../../../svg/like-svgrepo-com.svg",
+    likes: "../../../../svg/download-svgrepo-com.svg",
+);
+
+.top-overlay-field {
   display: flex;
   gap: 5px;
   align-items: center;
@@ -46,21 +56,11 @@ const displayValue = computed(() => {
   }
 }
 
-.views {
-  &:before {
-    mask-image: url("../../../../public/svg/look-svgrepo-com.svg");
-  }
-}
-
-.likes {
-  &:before {
-    mask-image: url("../../../../public/svg/like-svgrepo-com.svg");
-  }
-}
-
-.downloads {
-  &:before {
-    mask-image: url("../../../../public/svg/download-svgrepo-com.svg");
+@each $name, $imageUrl in $imageUrls {
+  .#{$name} {
+    &:before {
+      mask-image: url($imageUrl);
+    }
   }
 }
 </style>
