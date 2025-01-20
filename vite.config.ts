@@ -23,6 +23,11 @@ export default defineConfig(({mode, command}) => {
             },
         },
         css: {
+            preprocessorOptions: {
+              scss: {
+                  api: 'modern-compiler'
+              }
+            },
             postcss: {
                 plugins: [
                     autoprefixer({})
