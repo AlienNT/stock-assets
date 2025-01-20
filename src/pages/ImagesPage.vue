@@ -19,7 +19,9 @@ const state = reactive({
 })
 
 onMounted(() => {
-  loadImages()
+  if (!images.value.length) {
+    loadImages()
+  }
 })
 
 const canLoadMore = computed(() => {
@@ -65,30 +67,23 @@ watch(() => searchQuery.value, (value, oldValue) => {
 </script>
 
 <template>
-  <VPoster
-      title="Search royalty-free stock images"
-      poster-type="image"
-      :src="imagesHelper.IMAGES_PAGE_POSTER"
-  />
-  <section class="images-page">
+  <section class="page images-page">
+    <VPoster
+        title="Search royalty-free stock images"
+        poster-type="image"
+        :src="imagesHelper.IMAGES_PAGE_POSTER"
+    />
     <div class="container">
-     <div class="row">
-       <ImageList
-           :images="images"
-           :is-loading="isLoading"
-           @on-scrolled="onScrolled"
-       />
-     </div>
+      <div class="row">
+        <ImageList
+            :images="images"
+            :is-loading="isLoading"
+            @on-scrolled="onScrolled"
+        />
+      </div>
     </div>
   </section>
 </template>
 
 <style scoped>
-.images-page {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-}
 </style>
