@@ -53,11 +53,10 @@ const buttonStyle = computed(() => [
     <button
         class="back-button"
         type="button"
+        title="Back"
         :style="buttonStyle"
         @click="back()"
-    >
-      back
-    </button>
+    />
     <ul class="pages-navigation-list">
       <li
           v-for="{name, title} in navigationList"
@@ -104,5 +103,16 @@ const buttonStyle = computed(() => [
 .back-button {
   background-position: left center;
   background-size: contain;
+  display: flex;
+  flex: 1;
+  height: 30px;
+  width: 30px;
+  mask: url("../../../public/svg/back.svg") no-repeat center center / contain;
+  background-color: #cccccc;
+  cursor: pointer;
+  transition: background-color .2s ease;
+  &:hover {
+    background-color: #ffffff;
+  }
 }
 </style>
