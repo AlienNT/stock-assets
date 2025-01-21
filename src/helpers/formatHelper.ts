@@ -47,3 +47,22 @@ export function delay(time: number, func?: Function) {
         }, time)
     })
 }
+
+
+export function formattedTime(number: number): string {
+    const minutes = Math.trunc(number / 60) || 0
+    const seconds = Math.trunc(number % 60) || 0
+
+    return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`
+}
+
+export function formattedQuality(height: number): string {
+    const qualities = {
+        720: 'HD',
+        1080: 'FHD',
+        1440: '2K',
+        2160: '4K'
+    }
+    //@ts-ignore
+    return qualities[height] || height + 'p'
+}
