@@ -4,6 +4,7 @@ import {computed, reactive} from "vue";
 import {useUtils} from "@/composables/useUtils.ts";
 import ListItemOverlay from "@/components/UI/overlay/ListItemOverlay.vue";
 import VImage from "@/components/UI/VImage.vue";
+import imagesHelper from "@/helpers/imagesHelper.ts";
 
 export interface ImageItemPropsInterface extends ImageHitInterface {
 }
@@ -25,7 +26,6 @@ function onLoad() {
   state.loaded = true;
 }
 
-
 </script>
 
 <template>
@@ -42,6 +42,7 @@ function onLoad() {
         <VImage
             :src="src"
             :alt="tags || 'image'"
+            :background="`url(${imagesHelper.TRANSPARENT_BG}) no-repeat center center / cover`"
             loading="lazy"
             @on-load="onLoad"
         />
