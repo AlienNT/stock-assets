@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {normalizeCounter} from "@/helpers/formatHelper.ts";
 import {computed} from "vue";
+import imagesHelper from "@/helpers/imagesHelper.ts";
 
 interface TopOverlayFieldPropsInterface {
   type: 'likes' | 'downloads' | 'views',
@@ -16,35 +17,48 @@ const displayValue = computed(() => {
   return props.value ? normalizeCounter(props.value) : 0;
 })
 
+const bgUrl = computed(() => {
+  switch (props.type) {
+    case 'likes':
+      return imagesHelper.LIKE;
+    case 'downloads':
+      return imagesHelper.DOWNLOAD;
+    case 'views':
+      return imagesHelper.VIEWS
+  }
+})
+
+const styles = computed(() => [
+  bgUrl.value ? `mask-image: url(${bgUrl.value})` : '',
+].join('; '))
 </script>
 
 <template>
   <div
       v-if="isShow"
-      class="top-overlay-field"
       :class="type"
       :title="type"
+      class="top-overlay-field"
   >
-    {{ displayValue }}
+    <span
+        class="icon"
+        :style="styles"
+    />
+    <span
+        class="value"
+    >
+      {{ displayValue }}
+    </span>
   </div>
 </template>
 
 <style scoped lang="scss">
-@use 'sass:map';
-
-$imageUrls: (
-    views: "../../../../svg/look-svgrepo-com.svg",
-    downloads: "../../../../svg/download-svgrepo-com.svg",
-    likes: "../../../../svg/like-svgrepo-com.svg",
-);
-
 .top-overlay-field {
   display: flex;
   gap: 5px;
   align-items: center;
 
-  &:before {
-    content: '';
+  .icon {
     width: 15px;
     height: 15px;
     display: block;
@@ -52,14 +66,6 @@ $imageUrls: (
     mask-position: center center;
     mask-repeat: no-repeat;
     background-color: #fff;
-  }
-}
-
-@each $name, $imageUrl in $imageUrls {
-  .#{$name} {
-    &:before {
-      mask-image: url($imageUrl);
-    }
   }
 }
 </style>
