@@ -6,7 +6,7 @@ import {useConfig} from "@/composables/useConfig.ts";
 import {useSearch} from "@/composables/useSearch.ts";
 
 import VideoList from "@/components/video/VideoList.vue";
-import VPoster from "@/components/UI/VPoster.vue";
+import AssetsPageTemplate from "@/templates/AssetsPageTemplate.vue";
 
 
 const {videos, fetchVideos, totalVideos, resetStore} = useVideoStore()
@@ -17,10 +17,11 @@ const {request, isLoading} = fetchVideos()
 const state = reactive({
   page: 1,
   perPage: appConfig.value.VIDEO_REQUEST_PER_PAGE,
+  isListInViewport: false,
 })
 
 onMounted(() => {
-  if (!videos.value.length) {
+  if (!videos.value.length && state.isListInViewport) {
     loadVideos()
   }
 })
@@ -41,7 +42,7 @@ function onScrolled() {
 }
 
 function loadVideos() {
-  request({
+  return request({
     per_page: appConfig.value.VIDEO_REQUEST_PER_PAGE,
     page: state.page,
   })
@@ -55,10 +56,15 @@ function resetPageNumber() {
   state.page = 1;
 }
 
+function onIntersected(value: boolean) {
+  if (value && !videos.value.length) {
+    loadVideos()
+  }
+  state.isListInViewport = value;
+}
 
 watch(() => searchQuery.value, (value, oldValue) => {
   if (value && value !== oldValue) {
-    console.log({value, oldValue})
     resetPageNumber()
     resetStore()
     loadVideos()
@@ -68,21 +74,22 @@ watch(() => searchQuery.value, (value, oldValue) => {
 </script>
 
 <template>
-  <section class="page videos-page">
-    <VPoster
-        poster-type="video"
-        src="public/video/bg_tiny.mp4"
-        title="Search free stock video footage & clips"
-    />
-    <div class="container">
-      <div class="row">
-        <VideoList
-            :videos="videos"
-            @on-scrolled="onScrolled"
-        />
-      </div>
-    </div>
-  </section>
+  <AssetsPageTemplate
+      poster-src="public/video/bg_tiny.mp4"
+      title="Search free stock video footage & clips"
+      class="videos-page"
+      poster-type="video"
+      is-show-poster
+      @on-intersected="onIntersected"
+  >
+    <template #content>
+      <VideoList
+          :videos="videos"
+          :is-loading="isLoading"
+          @on-scrolled="onScrolled"
+      />
+    </template>
+  </AssetsPageTemplate>
 </template>
 
 <style scoped lang="scss">
