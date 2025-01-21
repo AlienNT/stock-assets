@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed} from "vue";
+import {computed, defineAsyncComponent, ref, watch} from "vue";
 import {useUtils} from "@/composables/useUtils.ts";
 
 export interface PosterPropsInterface {
@@ -18,10 +18,26 @@ const props = withDefaults(defineProps<PosterPropsInterface>(), {
   posterUrl: 'https://cdn.pixabay.com/video/2022/10/19/135658-764361528_tiny.jpg',
 })
 
-const {isMobileDevice} = useUtils()
+const {isMobileDevice, isFocusedScreen} = useUtils()
+
+const htmlElement = ref(null as HTMLVideoElement | null)
 
 const component = computed(() => {
-  return props.posterType === 'image' ? 'img' : 'video'
+  return props.posterType === 'image' ? 'img' : defineAsyncComponent(() => import('@/components/UI/VVideo.vue'))
+})
+
+function onHTMLElement(e: HTMLElement) {
+  htmlElement.value = e as HTMLVideoElement
+}
+
+watch(() => isFocusedScreen.value, (value) => {
+  if (!htmlElement.value || htmlElement.value.tagName === 'video') return
+
+  if (!value) {
+    htmlElement.value.pause()
+  } else {
+    htmlElement.value.play()
+  }
 })
 
 </script>
@@ -37,6 +53,7 @@ const component = computed(() => {
         :poster="posterType === 'video' && posterUrl"
         :alt="posterType==='image' && 'poster image'"
         class="poster-media-container"
+        @onHTMLElement="onHTMLElement"
     />
     <div class="container">
       <div class="poster-content">
@@ -60,10 +77,15 @@ const component = computed(() => {
 
 <style scoped lang="scss">
 .poster {
-  height: calc(var(--vh) * 0.6);
+  height: calc(var(--vh) * 0.5);
+  padding-top: var(--headerH);
   width: 100%;
   display: flex;
   position: relative;
+
+  .mobile-screen & {
+    height: calc(var(--vh) * 1);
+  }
 
   .container {
     display: flex;
