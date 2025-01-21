@@ -6,6 +6,7 @@ const {appConfig} = useConfig()
 const state = reactive({
     isMobileDevice: false as boolean,
     isMobileScreen: false as boolean,
+    isFocusedScreen: false as boolean,
 })
 
 export function useUtils() {
@@ -15,6 +16,10 @@ export function useUtils() {
 
     const isMobileScreen = computed(() => {
         return state.isMobileScreen;
+    })
+
+    const isFocusedScreen = computed(() => {
+        return state.isFocusedScreen;
     })
 
     function setIsMobileDevice() {
@@ -34,11 +39,18 @@ export function useUtils() {
         return window.innerWidth <= mobileScreenWidth
     }
 
+    function setIsFocusedScreen(value: boolean) {
+        state.isFocusedScreen = value
+    }
+
     return {
         isMobileDevice,
         isMobileScreen,
         setIsMobileDevice,
         setIsMobileScreen,
         checkIsMobileScreen,
+
+        isFocusedScreen,
+        setIsFocusedScreen
     }
 }
