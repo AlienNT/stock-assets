@@ -19,7 +19,7 @@ export interface ImageProps {
 const props = withDefaults(defineProps<ImageProps>(), {
   width: '100%',
   height: '100%',
-  background: '#ccc',
+  background: 'transparent',
   useTransition: true,
   objectFit: 'contain',
   transitionDuration: 500,
