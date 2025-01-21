@@ -12,4 +12,5 @@ export default {
     VIEWS: path + 'svg/look-svgrepo-com.svg',
     IMAGES_PAGE_POSTER: path + 'img/sunset.webp',
     LOGO: path + 'svg/logo.svg',
+    TRANSPARENT_BG: path + 'img/transparent.webp',
 }
