@@ -19,5 +19,7 @@ withDefaults(defineProps<SearchNotFoundProps>(), {
   text-transform: uppercase;
   font-size: 24px;
   text-align: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 </style>
