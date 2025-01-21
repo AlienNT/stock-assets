@@ -32,11 +32,10 @@ const displayValue = computed(() => {
 <style scoped lang="scss">
 @use 'sass:map';
 
-
 $imageUrls: (
     views: "../../../../svg/look-svgrepo-com.svg",
-    downloads: "../../../../svg/like-svgrepo-com.svg",
-    likes: "../../../../svg/download-svgrepo-com.svg",
+    downloads: "../../../../svg/download-svgrepo-com.svg",
+    likes: "../../../../svg/like-svgrepo-com.svg",
 );
 
 .top-overlay-field {
