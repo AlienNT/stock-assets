@@ -5,14 +5,13 @@ import {setCSSProperty} from "@/helpers/formatHelper.ts";
 onMounted(() => {
   setCSSProperty("--vh", `${window.innerHeight}px`)
 })
+
 </script>
 
 <template>
   <main class="main">
     <router-view v-slot="{Component}">
-      <transition name="router" appear mode="out-in">
-        <component :is="Component"/>
-      </transition>
+      <component :is="Component"/>
     </router-view>
   </main>
 </template>
