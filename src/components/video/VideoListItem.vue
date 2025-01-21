@@ -7,6 +7,8 @@ export interface VideoListItemProps extends VideoHitInterface {
 
 defineProps<VideoListItemProps>()
 
+const emit = defineEmits(['onTagClick'])
+
 </script>
 
 <template>
@@ -22,6 +24,7 @@ defineProps<VideoListItemProps>()
         :likes="likes"
         :downloads="downloads"
         :views="views"
+        @on-tag-click="tag => emit('onTagClick', tag)"
     />
   </router-link>
 </template>
