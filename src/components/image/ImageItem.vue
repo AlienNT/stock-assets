@@ -2,7 +2,7 @@
 import {ImageHitInterface} from "@/types/ImageTypes.ts";
 import {computed, reactive} from "vue";
 import {useUtils} from "@/composables/useUtils.ts";
-import ListItemOverlay from "@/components/UI/overlay/ListItemOverlay.vue";
+import OverlayListItem from "@/components/UI/overlay/OverlayListItem.vue";
 import VImage from "@/components/UI/VImage.vue";
 import imagesHelper from "@/helpers/imagesHelper.ts";
 
@@ -30,7 +30,7 @@ function onLoad() {
 
 <template>
   <div class="image-item">
-    <ListItemOverlay
+    <OverlayListItem
         :likes="likes"
         :downloads="downloads"
         :views="views"
@@ -47,6 +47,6 @@ function onLoad() {
             @on-load="onLoad"
         />
       </template>
-    </ListItemOverlay>
+    </OverlayListItem>
   </div>
 </template>
