@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import TopOverlayField from "@/components/UI/overlay/TopOverlayField.vue";
+import OverlayTopField from "@/components/UI/overlay/OverlayTopField.vue";
+import OverlayTagList from "@/components/UI/overlay/OverlayTagList.vue";
 
 export interface ListItemOverlayProps {
   views?: number,
@@ -26,7 +27,6 @@ const tagsArray = computed(() => {
   return props.tags ? props.tags.split(",").splice(0, props.showTagsCount) : []
 })
 
-
 </script>
 
 <template>
@@ -36,31 +36,24 @@ const tagsArray = computed(() => {
     </div>
     <div class="overlay">
       <div class="overlay__top">
-        <TopOverlayField
+        <OverlayTopField
             type="likes"
             :value="likes"
         />
-        <TopOverlayField
+        <OverlayTopField
             type="views"
             :value="views"
         />
-        <TopOverlayField
+        <OverlayTopField
             type="downloads"
             :value="downloads"
         />
       </div>
       <div class="overlay__bottom">
-        <div class="tags-wrapper">
-          <button
-              v-for="tag in tagsArray"
-              type="button"
-              class="tag"
-              :title="'search ' + tag"
-              @click.prevent.stop="emit('onTagClick', tag)"
-          >
-            {{ tag }}
-          </button>
-        </div>
+        <OverlayTagList
+            :tags="tagsArray"
+            @on-tag-click="tag => emit('onTagClick', tag)"
+        />
         <div class="custom">
           <slot name="customRight"/>
         </div>
@@ -105,6 +98,7 @@ const tagsArray = computed(() => {
 .overlay__bottom {
   width: 100%;
   padding: 16px;
+  display: flex;
 }
 
 .overlay__top {
@@ -116,31 +110,18 @@ const tagsArray = computed(() => {
 }
 
 .overlay__top {
-  display: flex;
   color: #eaeaea;
   gap: 15px;
   flex-wrap: wrap;
   font-size: 14px;
 }
 
-.tags-wrapper {
-  display: flex;
+.overlay__bottom {
+  justify-content: space-between;
   gap: 15px;
-  flex-wrap: wrap;
 }
 
-.tag {
-  all: unset;
-  color: #efefef;
-  display: block;
-  font-size: 14px;
-
-  &:hover {
-    color: #ffffff;
-  }
-
-  &:first-letter {
-    text-transform: uppercase;
-  }
+.custom {
+  display: flex;
 }
 </style>
