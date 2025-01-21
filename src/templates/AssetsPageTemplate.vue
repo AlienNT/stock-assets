@@ -19,7 +19,7 @@ const {createObserver, entryByTarget, observeTarget} = useObserver()
 const templateContainer = ref(null as unknown as HTMLElement)
 
 onMounted(() => {
-  createObserver({rootMargin: '-50px'})
+  createObserver({rootMargin: '100px'})
   observeTarget(templateContainer.value)
 })
 
