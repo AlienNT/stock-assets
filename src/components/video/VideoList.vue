@@ -5,9 +5,11 @@ import MasonryTemplate from "@/templates/MasonryTemplate.vue";
 
 import {calcHeight} from "@/helpers/templateHelper.ts";
 import {useConfig} from "@/composables/useConfig.ts";
+import {useSearch} from "@/composables/useSearch.ts";
 
 export interface VideoListPropsInterface {
-  videos: VideoHitInterface[]
+  videos: VideoHitInterface[],
+  isLoading: boolean,
 }
 
 defineProps<VideoListPropsInterface>()
@@ -15,6 +17,7 @@ defineProps<VideoListPropsInterface>()
 const emit = defineEmits(['onScrolled'])
 
 const {appConfig} = useConfig()
+const {setSearchQuery} = useSearch()
 
 function calcItemHeight(item: VideoHitInterface, itemWidth: number): number {
   return calcHeight({
@@ -34,6 +37,7 @@ function calcItemHeight(item: VideoHitInterface, itemWidth: number): number {
         :min-column-count="appConfig.VIDEO_LIST_COLUMNS_MIN"
         :gap="appConfig.VIDEO_LIST_GAP"
         :calc-item-height="calcItemHeight"
+        :is-loading="isLoading"
         @on-scrolled="emit('onScrolled')"
     >
       <template #content="{item}: {item: VideoHitInterface}">
@@ -52,7 +56,9 @@ function calcItemHeight(item: VideoHitInterface, itemWidth: number): number {
             :views="item.views"
             :id="item.id"
             :page-u-r-l="item.pageURL"
-            :user-image-u-r-l="item.userImageURL"/>
+            :user-image-u-r-l="item.userImageURL"
+            @on-tag-click="e => setSearchQuery(e)"
+        />
       </template>
     </MasonryTemplate>
   </div>
