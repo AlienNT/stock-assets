@@ -32,7 +32,7 @@ function onSubmit() {
         @on-change="e => state.searchValue = e"
     />
     <div class="search-button-wrapper">
-      <button class="search-button" type="submit"/>
+      <button class="search-button" type="submit" title="search button"/>
     </div>
   </form>
 </template>
