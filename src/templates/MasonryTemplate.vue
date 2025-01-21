@@ -41,6 +41,10 @@ const style = computed(() => [
   !props.isLoading && props.items.length ? `padding-bottom: 150px` : ''
 ].join('; '))
 
+const isNotFound = computed(() => {
+  return !props.isLoading && !props.items.length
+})
+
 onMounted(() => {
   window.addEventListener('scroll', () => scrollHandler())
 
@@ -66,14 +70,18 @@ onBeforeUnmount(() => {
     >
       <template #default="{item}:{item: any}">
         <transition-group appear name="fade">
-          <slot
-              name="content"
-              :item="item"
-          />
+          <div class="masonry-item" :key="item.id">
+            <slot
+                name="content"
+                :item="item"
+            />
+          </div>
         </transition-group>
       </template>
     </VirtualWaterfall>
-    <SearchNotFound v-else-if="!isLoading"/>
+    <SearchNotFound
+        v-else-if="isNotFound"
+    />
     <LoaderDotted
         v-show="isLoading"
         class="video-loader"
@@ -87,5 +95,16 @@ onBeforeUnmount(() => {
 .video-loader {
   padding-top: 50px;
   padding-bottom: 50px;
+}
+
+.masonry-item {
+  background: #e6e6e6;
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  > * {
+    flex: 1;
+  }
 }
 </style>
