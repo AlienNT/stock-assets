@@ -7,7 +7,7 @@ import {useConfig} from "@/composables/useConfig.ts";
 import {useSearch} from "@/composables/useSearch.ts";
 
 import ImageList from "@/components/image/ImageList.vue";
-import VPoster from "@/components/UI/VPoster.vue";
+import AssetsPageTemplate from "@/templates/AssetsPageTemplate.vue";
 
 const {fetchImages, images, totalImages, setImages} = useImageStore()
 const {appConfig} = useConfig()
@@ -16,10 +16,11 @@ const {request, isLoading} = fetchImages()
 
 const state = reactive({
   page: 1,
+  isListInViewport: false,
 })
 
 onMounted(() => {
-  if (!images.value.length) {
+  if (!images.value.length && state.isListInViewport) {
     loadImages()
   }
 })
@@ -41,6 +42,13 @@ function loadImages() {
   })
 }
 
+function onIntersecting(value: boolean) {
+  if (value && !images.value.length) {
+    loadImages()
+  }
+  state.isListInViewport = value
+}
+
 function onScrolled() {
   if (!canLoadMore.value || isLoading.value) return;
 
@@ -59,31 +67,28 @@ function resetPageNumber() {
 watch(() => searchQuery.value, (value, oldValue) => {
   if (value && value !== oldValue) {
     resetPageNumber()
-    setImages([])
     loadImages()
+    setImages([])
   }
 })
 
 </script>
 
 <template>
-  <section class="page images-page">
-    <VPoster
-        title="Search royalty-free stock images"
-        poster-type="image"
-        :src="imagesHelper.IMAGES_PAGE_POSTER"
-    />
-    <div class="container">
-      <div class="row">
-        <ImageList
-            :images="images"
-            :is-loading="isLoading"
-            @on-scrolled="onScrolled"
-        />
-      </div>
-    </div>
-  </section>
+  <AssetsPageTemplate
+      :poster-src="imagesHelper.IMAGES_PAGE_POSTER"
+      title="Search royalty-free stock images"
+      class="images-page"
+      poster-type="image"
+      is-show-poster
+      @on-intersected="onIntersecting"
+  >
+    <template #content>
+      <ImageList
+          :images="images"
+          :is-loading="isLoading"
+          @on-scrolled="onScrolled"
+      />
+    </template>
+  </AssetsPageTemplate>
 </template>
-
-<style scoped>
-</style>
