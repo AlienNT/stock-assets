@@ -7,6 +7,7 @@ const state = reactive({
     isMobileDevice: false as boolean,
     isMobileScreen: false as boolean,
     isFocusedScreen: false as boolean,
+    isShowNavigation: false as boolean,
 })
 
 export function useUtils() {
@@ -20,6 +21,10 @@ export function useUtils() {
 
     const isFocusedScreen = computed(() => {
         return state.isFocusedScreen;
+    })
+
+    const isShowNavigation = computed(() => {
+        return state.isShowNavigation;
     })
 
     function setIsMobileDevice() {
@@ -43,6 +48,10 @@ export function useUtils() {
         state.isFocusedScreen = value
     }
 
+    function setIsShowNavigation(value: boolean) {
+        state.isShowNavigation = value
+    }
+
     return {
         isMobileDevice,
         isMobileScreen,
@@ -51,6 +60,9 @@ export function useUtils() {
         checkIsMobileScreen,
 
         isFocusedScreen,
-        setIsFocusedScreen
+        setIsFocusedScreen,
+
+        isShowNavigation,
+        setIsShowNavigation
     }
 }
