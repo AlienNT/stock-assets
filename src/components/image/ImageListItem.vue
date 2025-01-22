@@ -35,5 +35,8 @@ defineEmits(['onTagClick'])
   width: 100%;
   height: 100%;
   transition: .2s ease;
+  > * {
+    flex: 1;
+  }
 }
 </style>
