@@ -5,11 +5,15 @@ import {setCSSProperty} from "@/helpers/formatHelper.ts";
 import PagesNavigation from "@/components/navigation/PagesNavigation.vue";
 import VLogo from "@/components/UI/VLogo.vue";
 import SearchForm from "@/components/search/SearchForm.vue";
+import BurgerButton from "@/components/UI/BurgerButton.vue";
+import {useUtils} from "@/composables/useUtils.ts";
 
 const header: Ref<HTMLElement> = ref(null) as unknown as Ref<HTMLElement>
 const state = reactive({
   bgOpacity: 0,
 })
+
+const {isMobileScreen, isShowNavigation, setIsShowNavigation} = useUtils()
 
 onMounted(() => {
   setCSSProperty('--headerH', `${header.value?.offsetHeight}px`)
@@ -32,15 +36,27 @@ function calcOpacity(scrollHeight: number, windowHeight: number) {
 <template>
   <header class="header" ref="header">
     <div class="container">
-      <div class="row">
+      <div class="row header-row">
         <div class="col logo-col">
           <VLogo/>
         </div>
         <div class="col search-col">
           <SearchForm/>
         </div>
-        <div class="col navigation-col">
-          <PagesNavigation/>
+        <PagesNavigation
+            v-if="isShowNavigation || !isMobileScreen"
+            class="col navigation-col"
+            :class="isMobileScreen && 'mobile-navigation'"
+            :is-mobile="isMobileScreen"
+        />
+        <div
+            v-if="isMobileScreen"
+            class="col burger-col"
+        >
+          <BurgerButton
+              :is-active="isShowNavigation"
+              @on-click="setIsShowNavigation(!isShowNavigation)"
+          />
         </div>
       </div>
     </div>
@@ -57,13 +73,29 @@ $opacity: var(--headerOpacity);
   background: rgba(0, 0, 0, $opacity);
   padding: 10px 15px;
   z-index: 2;
+}
 
-  .row {
-    justify-content: space-between;
-  }
+.header-row {
+  justify-content: space-between;
+  //flex-wrap: nowrap;
+  align-items: center;
 }
 
 .search-col {
   flex: 1;
+  max-width: 600px;
+}
+
+.burger-col {
+  display: flex;
+  align-items: center;
+}
+.navigation-col {
+  flex: none;
+}
+.mobile-navigation {
+  order: 6;
+  flex: 100%;
+  height: calc(var(--vh) - var(--headerH));
 }
 </style>
