@@ -13,12 +13,14 @@ export interface PageNavigationPropsInterface {
   navigation?: NavigationInterface[],
   showBackButton?: boolean,
   backButtonText?: string,
+  isMobile?: boolean,
 }
 
 const props = withDefaults(defineProps<PageNavigationPropsInterface>(), {
   backButtonText: 'back',
   showBackButton: true,
-  showBackButtonText: true
+  showBackButtonText: true,
+  isMobile: false,
 })
 
 const {back} = useRouter()
@@ -49,7 +51,10 @@ const buttonStyle = computed(() => [
 </script>
 
 <template>
-  <nav class="pages-navigation">
+  <nav
+      class="pages-navigation"
+      :class="isMobile && 'mobile'"
+  >
     <button
         class="back-button"
         type="button"
@@ -104,15 +109,25 @@ const buttonStyle = computed(() => [
   background-position: left center;
   background-size: contain;
   display: flex;
-  flex: 1;
   height: 30px;
   width: 30px;
   mask: url("../../../public/svg/back.svg") no-repeat center center / contain;
   background-color: #cccccc;
   cursor: pointer;
   transition: background-color .2s ease;
+
   &:hover {
     background-color: #ffffff;
+  }
+}
+
+.mobile {
+  flex-direction: column;
+  padding: 15px;
+
+  .pages-navigation-list {
+    flex-direction: column;
+    margin: auto;
   }
 }
 </style>
