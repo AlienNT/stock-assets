@@ -11,6 +11,8 @@ import VideoDownloadField from "@/components/video/VideoDownloadField.vue";
 import {useVideoStore} from "@/store/videoStore.ts";
 import {computed, onMounted, reactive} from "vue";
 import {useRouter} from "vue-router";
+import DetailedPageTemplate from "@/templates/DetailedPageTemplate.vue";
+import VVideo from "@/components/UI/VVideo.vue";
 
 const {fetchVideo} = useVideoStore()
 const {request} = fetchVideo()
@@ -53,39 +55,36 @@ function getField<T>(key: string, field: keyof VideoResponseFieldsInterface): T 
 </script>
 
 <template>
-  <div class="video-detail-page">
-    <div class="container">
-      <div class="row">
-        <div class="video-preview">
-          <video
-              :poster="videoHits?.medium?.thumbnail"
-              controls
+  <DetailedPageTemplate>
+    <template #content>
+      <VVideo
+          :src="videoHits?.medium?.url || ''"
+          :poster="videoHits?.medium?.thumbnail"
+          controls
+      />
+    </template>
+    <template #info>
+      <div class="video-info">
+        <div class="video-download"
+             v-if="videoHits"
+        >
+          <template
+              v-for="key in Object.keys(videoHits)"
+              :key="key"
           >
-            <source :src="videoHits?.medium?.url" type="film"/>
-          </video>
-        </div>
-        <div class="video-info">
-          <div class="video-download"
-               v-if="videoHits"
-          >
-            <template
-                v-for="key in Object.keys(videoHits)"
-                :key="key"
-            >
-              <div :class="`video-download__${key}`">
-                <VideoDownloadField
-                    :url="getField(key, 'url')"
-                    :width="getField(key, 'width')"
-                    :height="getField(key, 'height')"
-                    :size="getField(key, 'size')"
-                />
-              </div>
-            </template>
-          </div>
+            <div :class="`video-download__${key}`">
+              <VideoDownloadField
+                  :url="getField(key, 'url')"
+                  :width="getField(key, 'width')"
+                  :height="getField(key, 'height')"
+                  :size="getField(key, 'size')"
+              />
+            </div>
+          </template>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </DetailedPageTemplate>
 </template>
 
 <style scoped lang="scss">
@@ -103,7 +102,4 @@ function getField<T>(key: string, field: keyof VideoResponseFieldsInterface): T 
   flex: 50%;
 }
 
-.video-info {
-
-}
 </style>
