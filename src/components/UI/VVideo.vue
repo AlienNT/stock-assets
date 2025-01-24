@@ -60,6 +60,7 @@ onMounted(() => {
       :preload="preload"
       :muted="muted"
       :loop="loop"
+      :controls="controls"
       class="video"
       ref="video"
       @timeupdate="e => emit('onTimeUpdate', e)"
@@ -74,6 +75,9 @@ onMounted(() => {
 video {
   opacity: 0;
   transition: opacity .5s ease;
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .show {
