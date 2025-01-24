@@ -18,18 +18,38 @@
 </template>
 
 <style scoped lang="scss">
+$headerHeight: var(--headerH);
+$sectionHeight: var(--vh);
+.container {
+  max-width: 1200px;
+}
 .detailed-page-template {
   display: flex;
-  flex-wrap: wrap;
-  padding-top: calc(var(--headerH) + 15px);
+  flex: 1;
+  padding-top: $headerHeight;
+  max-height: $sectionHeight;
+  height: 100%;
+
+  .row {
+    height: 100%;
+  }
 }
+
 .detailed-page-content {
   flex: 1 1 65%;
   display: flex;
   flex-direction: column;
-  max-height: var(--vh);
+  max-height: 100%;
+  height: 100%;
 }
+
 .detailed-page-info {
   flex: 1 1 35%;
+  min-width: 320px;
+}
+
+.detailed-page-content,
+.detailed-page-info {
+  padding: 15px;
 }
 </style>
