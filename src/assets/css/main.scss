@@ -42,3 +42,24 @@ body, :root {
   display: flex;
   flex-direction: column;
 }
+.file-details-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-details-info__field {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  padding: 5px;
+  font-size: 14px;
+
+  .title {
+    color: #5a5a5a;
+    font-weight: 600;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+}
