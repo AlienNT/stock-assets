@@ -20,6 +20,6 @@ onMounted(() => {
 .main {
   display: flex;
   flex-direction: column;
-  min-height: calc(var(--vh) - var(--headerH));
+  min-height: var(--vh);
 }
 </style>
