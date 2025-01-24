@@ -22,5 +22,8 @@ export interface ImageHitInterface extends BaseHitInterface{
     previewHeight?: number,
     webformatHeight?: number,
     webformatWidth?: number,
+    imageWidth?: number,
+    imageHeight?: number,
+    imageSize?: number
 }
 export interface ImageResponseInterface extends BaseResponseInterface<ImageHitInterface>{}
