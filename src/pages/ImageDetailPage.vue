@@ -6,6 +6,12 @@ import {ImageHitInterface, ImageResponseInterface} from "@/types/ImageTypes.ts";
 
 import DetailedPageTemplate from "@/templates/DetailedPageTemplate.vue";
 import DetailedImage from "@/components/image/DetailedImage.vue";
+import FileDetails from "@/components/detailedPage/FileDetails.vue";
+import FileDetailsDownload from "@/components/detailedPage/FileDetailsDownload.vue";
+import FileDetailsDownloadField, {
+  FileDetailsDownloadFieldProps
+} from "@/components/detailedPage/FileDetailsDownloadField.vue";
+import FileDetailsImageInfo from "@/components/detailedPage/FileDetailsImageInfo.vue";
 
 const {fetchImage} = useImageStore()
 const {request} = fetchImage()
@@ -20,7 +26,7 @@ const imageId = computed(() => {
 })
 
 async function getImage() {
-  request({
+  return request({
     id: imageId.value
   }).then((response: ImageResponseInterface | void) => {
     if (!response) return;
@@ -30,6 +36,15 @@ async function getImage() {
     state.imageData = hits[0];
   })
 }
+
+const images = computed(() => {
+  return [{
+    width: state.imageData.imageWidth,
+    height: state.imageData.imageHeight,
+    url: state.imageData.largeImageURL,
+    size: state.imageData.imageSize,
+  }]
+})
 
 onMounted(() => {
   getImage()
@@ -50,7 +65,39 @@ onMounted(() => {
           />
         </template>
         <template #info>
-
+          <FileDetails
+              :user="state.imageData.user"
+              :user-image-u-r-l="state.imageData.userImageURL"
+          >
+            <template #fileDownload>
+              <FileDetailsDownload
+                  :items="images"
+                  file-type="image"
+              >
+                <template
+                    #default="{item, events: {onClick}}: {item: FileDetailsDownloadFieldProps, events: {onClick: any}}">
+                  <FileDetailsDownloadField
+                      :height="item.height"
+                      :width="item.width"
+                      :url="item.url"
+                      :size="item.size"
+                      @on-click="onClick"
+                  />
+                </template>
+              </FileDetailsDownload>
+            </template>
+            <template #fileInfo>
+              <FileDetailsImageInfo
+                  :height="state.imageData.imageHeight"
+                  :width="state.imageData.imageWidth"
+                  :tags="state.imageData.tags"
+                  :downloads="state.imageData.downloads"
+                  :views="state.imageData.views"
+                  :likes="state.imageData.likes"
+                  :type="state.imageData.type"
+              />
+            </template>
+          </FileDetails>
         </template>
       </DetailedPageTemplate>
     </div>
@@ -63,10 +110,8 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
 }
+
 .detailed-page-template {
   flex: 1;
-}
-.detailed-image {
-  max-height: var(--vh);
 }
 </style>
