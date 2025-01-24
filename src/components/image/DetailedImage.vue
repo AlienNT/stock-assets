@@ -22,5 +22,6 @@ defineProps<DetailedImageProps>()
 .detailed-image {
   flex: 1;
   display: flex;
+  max-height: 100%;
 }
 </style>
