@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
+import {onMounted, onUpdated, ref, watch} from "vue";
 
 export interface VideoPropsInterface {
   poster?: string,
@@ -9,6 +9,7 @@ export interface VideoPropsInterface {
   muted?: boolean,
   loop?: boolean,
   controls?: boolean,
+  playsinline?: boolean,
 }
 
 const props = withDefaults(defineProps<VideoPropsInterface>(), {
@@ -17,12 +18,13 @@ const props = withDefaults(defineProps<VideoPropsInterface>(), {
   loop: false,
   controls: false,
   muted: false,
+  playsinline: false,
 })
 
 const emit = defineEmits(['onTimeUpdate', 'onLoad', 'onHTMLElement'])
 
 const isLoaded = ref(false as boolean)
-const video = ref(null as unknown as HTMLVideoElement)
+const videoElement = ref(null as unknown as HTMLVideoElement)
 
 function onLoad(e: Event) {
   isLoaded.value = true
@@ -48,7 +50,7 @@ watch(() => props.poster, (value) => {
 })
 
 onMounted(() => {
-  emit('onHTMLElement', video.value)
+  emit('onHTMLElement', videoElement.value)
 })
 </script>
 
@@ -58,14 +60,16 @@ onMounted(() => {
       :poster="poster"
       :autoplay="autoplay"
       :preload="preload"
-      :muted="muted"
+      muted
       :loop="loop"
       :controls="controls"
+      :playsinline="playsinline"
       class="video"
-      ref="video"
+      ref="videoElement"
       @timeupdate="e => emit('onTimeUpdate', e)"
       @load="e => onLoad(e)"
       @canplay="onLoad"
+      @click.prevent
   >
     <source :src="src"/>
   </video>
