@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {useRouter} from "vue-router";
 import {computed, onBeforeMount, reactive} from "vue";
 import {setCSSProperty} from "@/helpers/formatHelper.ts";
 import BackButton from "@/components/navigation/BackButton.vue";
@@ -25,8 +24,6 @@ const props = withDefaults(defineProps<PageNavigationPropsInterface>(), {
 })
 
 const emit = defineEmits(['onClick'])
-
-const {back} = useRouter()
 
 const state = reactive({
   navigation: [
