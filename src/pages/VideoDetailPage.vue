@@ -5,16 +5,16 @@ import {
 } from "@/types/VideoTypes.ts";
 
 import {useVideoStore} from "@/store/videoStore.ts";
-import {computed, onMounted, reactive, ref} from "vue";
+import {computed, onMounted, reactive} from "vue";
 import {useRouter} from "vue-router";
 import DetailedPageTemplate from "@/templates/DetailedPageTemplate.vue";
-import VVideo from "@/components/UI/VVideo.vue";
 import FileDetails from "@/components/detailedPage/FileDetails.vue";
 import FileDetailsVideoInto from "@/components/detailedPage/FileDetailsVideoInto.vue";
 import FileDetailsDownload from "@/components/detailedPage/FileDetailsDownload.vue";
 import FileDetailsDownloadField, {
   FileDetailsDownloadFieldProps
 } from "@/components/detailedPage/FileDetailsDownloadField.vue";
+import VideoPlayer from "@/components/UI/player/VideoPlayer.vue";
 
 const {fetchVideo} = useVideoStore()
 const {request} = fetchVideo()
@@ -27,11 +27,14 @@ const state = reactive({
 const id = computed(() => {
   return currentRoute.value.params.id
 })
+
 const videoHits = computed(() => {
   return state.videoData.videos
 })
 
-const selectUrl = ref('' as string | undefined)
+const videoData = computed(() => {
+  return videoHits.value?.medium || undefined
+})
 
 async function getVideo() {
   return request({
@@ -49,26 +52,22 @@ onMounted(() => {
   getVideo()
 })
 
-const isSelected = (url: string | undefined) => computed(() => {
-  return isSelect(url)
-})
-
-function isSelect(url: string | undefined) {
-  return url === selectUrl.value
-}
-
 </script>
 
 <template>
   <DetailedPageTemplate>
     <template #content>
       <div class="video-preview">
-        <VVideo
-            :key="videoHits?.medium?.url"
-            :src="videoHits?.medium?.url || ''"
-            :poster="videoHits?.medium?.thumbnail"
-            class="video-preview"
+        <VideoPlayer
+            v-if="videoData"
+            :src="videoData.url"
+            :poster="videoData.thumbnail"
+            muted
+            autoplay
+            loop
             controls
+            preload="auto"
+            class="video-preview"
         />
       </div>
     </template>
@@ -96,7 +95,6 @@ function isSelect(url: string | undefined) {
                       :width="item.width"
                       :url="item.url"
                       :size="item?.size"
-                      :selected="isSelected(item.url).value"
                       @on-click="onClick"
                   />
                 </template>
@@ -127,9 +125,7 @@ function isSelect(url: string | undefined) {
 }
 
 .video-preview {
-  margin: auto;
-  background: #ccc;
-  width: fit-content;
+  background: black;
   max-height: 100%;
   max-width: 100%;
 }
