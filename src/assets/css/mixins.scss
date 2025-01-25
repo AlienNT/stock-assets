@@ -1,12 +1,12 @@
 @use 'sass:color';
 
-@mixin hoverBackgroundColor($color) {
+@mixin hoverBackgroundColor($color, $percent: -30%) {
   background: $color;
   transition:  background-color .2s ease;
 
   @media (pointer: fine) {
     &:hover {
-      background: color.scale($color, $lightness: -30%);
+      background: color.scale($color, $lightness: $percent);
     }
   }
 }
