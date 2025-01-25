@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, Ref, ref, watch} from "vue";
+import {computed, onMounted, onUpdated, Ref, ref, watch} from "vue";
 import {setCSSProperty} from "@/helpers/formatHelper.ts";
 
 import PagesNavigation from "@/components/navigation/PagesNavigation.vue";
@@ -19,12 +19,16 @@ onMounted(() => {
   addEventListener('scroll', setHeaderOpacity)
 })
 
+onUpdated(() => {
+  setCSSProperty('--headerH', `${header.value?.offsetHeight}px`)
+})
+
 const routeName = computed(() => {
   return router.currentRoute.value.name
 })
 
 const isListPage = computed(() => {
-  return routeName.value === 'Images' ||  routeName.value === 'Videos'
+  return routeName.value === 'Images' || routeName.value === 'Videos'
 })
 
 const isNotTransparentBG = computed(() => {
@@ -33,6 +37,10 @@ const isNotTransparentBG = computed(() => {
 
 const isShowSearch = computed(() => {
   return isListPage.value
+})
+
+const isOpenNav = computed(() => {
+  return isShowNavigation.value || !isMobileScreen.value
 })
 
 function setHeaderOpacity() {
@@ -53,35 +61,45 @@ watch(() => routeName.value, () => {
 }, {
   immediate: true,
 })
+
+watch(() => isOpenNav.value, (value) => {
+  if (value) {
+    document.body.classList.add("scroll-disabled")
+  } else {
+    document.body.classList.remove("scroll-disabled")
+  }
+})
 </script>
 
 <template>
-  <header class="header" ref="header">
+  <header
+      :class="isMobileScreen && isOpenNav && 'mobile-header'"
+      class="header"
+      ref="header"
+  >
     <div class="container">
       <div class="row header-row">
-        <div class="col logo-col">
-          <VLogo/>
-        </div>
-        <div class="col search-col">
+        <VLogo class="col logo-col"/>
           <SearchForm
               v-if="isShowSearch"
+              class="col search-col"
           />
-        </div>
-        <PagesNavigation
-            v-if="isShowNavigation || !isMobileScreen"
-            class="col navigation-col"
-            :class="isMobileScreen && 'mobile-navigation'"
-            :is-mobile="isMobileScreen"
-        />
-        <div
-            v-if="isMobileScreen"
-            class="col burger-col"
-        >
-          <BurgerButton
-              :is-active="isShowNavigation"
-              @on-click="setIsShowNavigation(!isShowNavigation)"
+          <PagesNavigation
+              v-if="isOpenNav"
+              class="col navigation-col"
+              :class="isMobileScreen && 'mobile-navigation'"
+              :is-mobile="isMobileScreen"
+              @on-click="setIsShowNavigation(false)"
           />
-        </div>
+          <div
+              v-if="isMobileScreen"
+              class="col burger-col"
+          >
+            <BurgerButton
+                :is-active="isShowNavigation"
+                @on-click="setIsShowNavigation(!isShowNavigation)"
+            />
+          </div>
       </div>
     </div>
   </header>
@@ -95,13 +113,13 @@ $opacity: var(--headerOpacity, 0);
   top: 0;
   width: 100%;
   background: rgba(0, 0, 0, $opacity);
-  padding: 10px 15px;
-  z-index: 2;
+  padding: 10px 0;
+  z-index: 3;
 }
 
 .header-row {
   justify-content: space-between;
-  //flex-wrap: nowrap;
+  flex-wrap: nowrap;
   align-items: center;
 }
 
@@ -114,12 +132,21 @@ $opacity: var(--headerOpacity, 0);
   display: flex;
   align-items: center;
 }
+
 .navigation-col {
   flex: none;
+  transition: .2s ease;
 }
+
 .mobile-navigation {
   order: 6;
-  flex: 100%;
-  height: calc(var(--vh) - var(--headerH));
+  width: 100%;
+  position: fixed;
+  top: var(--headerH);
+  left: 0;
+  z-index: 3;
+  height: calc(var(--openNavHeight) - var(--headerH));
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
 }
 </style>
