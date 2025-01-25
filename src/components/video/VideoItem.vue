@@ -84,11 +84,13 @@ function onHTMLElement(e: HTMLElement) {
     >
       <template #listItem>
         <VVideo
-            :src="video?.url || ''"
+            v-if="video?.url"
+            :src="video?.url"
             :poster="video?.thumbnail"
             :autoplay="state.isPlaying"
             muted
             loop
+            playsinline
             preload="none"
             @on-load="onLoad"
             @on-time-update="onTimeUpdate"
