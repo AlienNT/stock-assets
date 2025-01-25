@@ -45,7 +45,7 @@ watch(() => isIntersecting.value, (value) => {
         :poster-type="posterType"
         :src="posterSrc"
     />
-    <div class="container">
+    <div class="container" id="assets-container">
       <div class="row" id="assetsListViewport" ref="templateContainer">
         <slot name="content"/>
       </div>
