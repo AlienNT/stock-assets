@@ -4,6 +4,11 @@ import {setCSSProperty} from "@/helpers/formatHelper.ts";
 
 onMounted(() => {
   setCSSProperty("--vh", `${window.innerHeight}px`)
+  document.head.insertAdjacentHTML("afterbegin",
+      `
+    <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">`
+  )
 })
 
 </script>
