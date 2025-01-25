@@ -47,7 +47,6 @@ function setVideoElement(videoElement: HTMLVideoElement): void {
 
 function onLoad(e: Event): void {
   setVideoElement(e.target as unknown as HTMLVideoElement);
-  alert(JSON.stringify(state.videoElement));
 }
 
 function onTimeUpdate(e: Event): void {
