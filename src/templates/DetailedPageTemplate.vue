@@ -19,19 +19,24 @@
 
 <style scoped lang="scss">
 $headerHeight: var(--headerH);
-$sectionHeight: var(--vh);
+$sectionHeight: calc(var(--vh) - #{$headerHeight});
 .container {
   max-width: 1200px;
 }
 .detailed-page-template {
   display: flex;
   flex: 1;
-  padding-top: $headerHeight;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-top: $headerHeight;
   max-height: $sectionHeight;
   height: 100%;
 
   .row {
     height: 100%;
+  }
+  @media all and (max-width: 768px) {
+    padding-top: 0;
   }
 }
 
@@ -40,7 +45,6 @@ $sectionHeight: var(--vh);
   display: flex;
   flex-direction: column;
   max-height: 100%;
-  height: 100%;
 }
 
 .detailed-page-info {
