@@ -34,11 +34,10 @@ const slots = useSlots()
       <slot name="fileInfo"/>
     </div>
     <div
-        v-if="showUserInfo"
+        v-if="showUserInfo && user && userImageURL"
         class="file-user-info"
     >
       <FileDetailsUserInfo
-          v-if="user && userImageURL"
           :image-url="userImageURL"
           :user-name="user"
       />
