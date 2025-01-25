@@ -32,5 +32,6 @@ withDefaults(defineProps<LogoPropsInterface>(), {
 <style scoped lang="scss">
 .logo {
   max-width: 150px;
+  width: 100%;
 }
 </style>
