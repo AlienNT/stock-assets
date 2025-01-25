@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
-import {computed, reactive} from "vue";
-import imagesHelper from "@/helpers/imagesHelper.ts";
+import {computed, onBeforeMount, reactive} from "vue";
+import {setCSSProperty} from "@/helpers/formatHelper.ts";
+import BackButton from "@/components/navigation/BackButton.vue";
 
 export interface NavigationInterface {
   name: string,
@@ -22,6 +23,8 @@ const props = withDefaults(defineProps<PageNavigationPropsInterface>(), {
   showBackButtonText: true,
   isMobile: false,
 })
+
+const emit = defineEmits(['onClick'])
 
 const {back} = useRouter()
 
@@ -44,9 +47,10 @@ const navigationList = computed(() => {
   return props.navigation || state.navigation;
 })
 
-const buttonStyle = computed(() => [
-  imagesHelper.BACK ? `background-image: ${imagesHelper.BACK}` : ''
-].join('; '))
+
+onBeforeMount(() => {
+  setCSSProperty('--openNavHeight', window.innerHeight + 'px');
+})
 
 </script>
 
@@ -55,43 +59,55 @@ const buttonStyle = computed(() => [
       class="pages-navigation"
       :class="isMobile && 'mobile'"
   >
-    <button
-        class="back-button"
-        type="button"
-        title="Back"
-        :style="buttonStyle"
-        @click="back()"
-    />
-    <ul class="pages-navigation-list">
-      <li
-          v-for="{name, title} in navigationList"
-          :key="name"
-          class="pages-navigation-list__item"
-      >
-        <router-link
-            :to="{name}"
-            class="router-link"
-            active-class="router-link--active"
+    <div class="pages-navigation__wrapper">
+      <BackButton
+          class="pages-navigation__back-button"
+          :show-icon="!isMobile"
+          :show-title="isMobile"
+          @click="emit('onClick')"
+      />
+      <ul class="pages-navigation-list">
+        <li
+            v-for="{name, title} in navigationList"
+            :key="name"
+            class="pages-navigation-list__item"
+            @click="emit('onClick')"
         >
-          {{ title }}
-        </router-link>
-      </li>
-    </ul>
+          <router-link
+              :to="{name}"
+              class="router-link"
+              active-class="router-link--active"
+          >
+            {{ title }}
+          </router-link>
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
 
 <style scoped lang="scss">
-.pages-navigation {
+.pages-navigation,
+.pages-navigation__wrapper,
+.pages-navigation-list {
   display: flex;
-  gap: 15px;
-  flex: 1;
-  height: 100%;
+  //gap: 15px;
+}
+
+.pages-navigation,
+.pages-navigation__wrapper {
   align-items: center;
 }
 
-.pages-navigation-list {
-  display: flex;
-  gap: 15px;
+.router-link, .pages-navigation__back-button {
+  padding: 15px;
+  display: block;
+}
+
+.pages-navigation {
+  flex: 1;
+  height: 100%;
+  align-items: center;
 }
 
 .router-link {
@@ -101,33 +117,39 @@ const buttonStyle = computed(() => [
   font-size: 16px;
 }
 
-.router-link--active, .router-link:hover {
+.router-link--active,
+.router-link:hover {
   color: #ffffff;
-}
-
-.back-button {
-  background-position: left center;
-  background-size: contain;
-  display: flex;
-  height: 30px;
-  width: 30px;
-  mask: url("../../../public/svg/back.svg") no-repeat center center / contain;
-  background-color: #cccccc;
-  cursor: pointer;
-  transition: background-color .2s ease;
-
-  &:hover {
-    background-color: #ffffff;
-  }
 }
 
 .mobile {
   flex-direction: column;
-  padding: 15px;
 
+  .pages-navigation__wrapper,
   .pages-navigation-list {
     flex-direction: column;
-    margin: auto;
+    gap: 15px;
+  }
+
+  .pages-navigation__back-button,
+  .pages-navigation-list {
+    text-align: right;
+  }
+
+  .pages-navigation__back-button,
+  .router-link {
+    font-size: 20px;
+  }
+
+  .pages-navigation__wrapper {
+    margin: auto 0 auto auto;
+  }
+}
+
+.pages-navigation__back-button {
+  .mobile & {
+    padding: 15px;
+    border-bottom: 2px solid #bababa;
   }
 }
 </style>
