@@ -7,3 +7,12 @@ export function calcHeight({width, height, itemWidth, defaultWidth = 250}: {
 
     return (!height || !width || !itemWidth) ? defaultWidth : itemWidth * (height && width ? height / width : 1)
 }
+
+export function debounce(func: Function, time: number) {
+    let timeout: number
+
+    return () => {
+        clearTimeout(timeout)
+        timeout = setTimeout(func, time)
+    }
+}
