@@ -17,7 +17,7 @@ defineProps<FooterLinksPropsInterface>()
 		  class="col footer-col"
 		  :title="title"
 		  :href="href"
-		  :linkTitle="linkTitle"
+		  :link-title="linkTitle"
 		  target="_blank"
 	  />
 	</ul>
