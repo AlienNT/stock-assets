@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div class="detailed-page-template">
     <div class="container">
@@ -29,7 +25,6 @@ $sectionHeight: calc(var(--vh) - #{$headerHeight});
   padding-top: 50px;
   padding-bottom: 50px;
   margin-top: $headerHeight;
-  max-height: $sectionHeight;
   height: 100%;
 
   .row {
