@@ -19,7 +19,6 @@ defineProps<DetailedImageProps>()
 
 <style scoped lang="scss">
 .detailed-image {
-  flex: 1;
   display: flex;
   max-height: 100%;
 }
