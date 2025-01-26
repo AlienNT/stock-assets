@@ -13,7 +13,7 @@ import FileDetailsVideoInto from "@/components/detailedPage/FileDetailsVideoInto
 import FileDetailsDownload from "@/components/detailedPage/FileDetailsDownload.vue";
 import FileDetailsDownloadField, {
   FileDetailsDownloadFieldProps
-} from "@/components/detailedPage/FileDetailsDownloadField.vue";
+} from '@/components/detailedPage/FileDetailsDownloadField.vue'
 import VideoPlayer from "@/components/UI/player/VideoPlayer.vue";
 
 const {fetchVideo} = useVideoStore()
@@ -23,6 +23,7 @@ const {currentRoute} = useRouter()
 const state = reactive({
   videoData: {} as VideoHitInterface
 })
+
 
 const id = computed(() => {
   return currentRoute.value.params.id
@@ -93,7 +94,8 @@ onMounted(() => {
 				  file-type="video"
               >
                 <template
-                    #default="{item, events: {onClick}}: {item: FileDetailsDownloadFieldProps, events: {onClick: any}}">
+                    #default="{item, events: {onClick}}: {item: FileDetailsDownloadFieldProps, events: {onClick: any}}"
+				>
                   <FileDetailsDownloadField
                       :height="item.height"
                       :width="item.width"
