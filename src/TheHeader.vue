@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import {Ref, computed, onMounted, onUpdated, ref, watch} from "vue";
-import {setCSSProperty} from "@/helpers/formatHelper.ts";
+import { Ref, computed, onMounted, onUpdated, ref, watch } from 'vue'
+import { setCSSProperty } from '@/helpers/formatHelper.ts'
 
-import PagesNavigation from "@/components/navigation/PagesNavigation.vue";
-import VLogo from "@/components/UI/VLogo.vue";
-import SearchForm from "@/components/search/SearchForm.vue";
-import BurgerButton from "@/components/UI/BurgerButton.vue";
-import {useUtils} from "@/composables/useUtils.ts";
-import {useRouter} from "vue-router";
+import PagesNavigation from '@/components/navigation/PagesNavigation.vue'
+import VLogo from '@/components/UI/VLogo.vue'
+import SearchForm from '@/components/search/SearchForm.vue'
+import BurgerButton from '@/components/UI/BurgerButton.vue'
+import { useUtils } from '@/composables/useUtils.ts'
+import { useRouter } from 'vue-router'
 
 const header: Ref<HTMLElement> = ref(null) as unknown as Ref<HTMLElement>
 
-const {isMobileScreen, isShowNavigation, setIsShowNavigation} = useUtils()
+const { isMobileScreen, isShowNavigation, setIsShowNavigation } = useUtils()
 const router = useRouter()
 
 onMounted(() => {
@@ -43,6 +43,10 @@ const isOpenNav = computed(() => {
   return isShowNavigation.value || !isMobileScreen.value
 })
 
+const isDisabledScrollable = computed(() => {
+  return isMobileScreen.value && isOpenNav.value
+})
+
 function setHeaderOpacity() {
   const opacity = calcOpacity(window.scrollY, window.innerHeight)
   setCSSProperty('--headerOpacity', `${opacity}`)
@@ -50,7 +54,7 @@ function setHeaderOpacity() {
 
 function calcOpacity(scrollHeight: number, windowHeight: number) {
   if (isNotTransparentBG.value && routeName.value) {
-    return 1
+	return 1
   }
   const coefficient = +(scrollHeight * 2 / windowHeight).toFixed(2)
   return coefficient <= 1 ? coefficient : 1
@@ -62,46 +66,48 @@ watch(() => routeName.value, () => {
   immediate: true,
 })
 
-watch(() => isOpenNav.value, (value) => {
+watch(() => isDisabledScrollable.value, (value) => {
   if (value) {
-    document.body.classList.add("scroll-disabled")
+	document.body.classList.add('scroll-disabled')
   } else {
-    document.body.classList.remove("scroll-disabled")
+	document.body.classList.remove('scroll-disabled')
   }
+}, {
+  immediate: true
 })
 </script>
 
 <template>
   <header
-      ref="header"
-      :class="isMobileScreen && isOpenNav && 'mobile-header'"
-      class="header"
+	  ref="header"
+	  :class="isMobileScreen && isOpenNav && 'mobile-header'"
+	  class="header"
   >
-    <div class="container">
-      <div class="row header-row">
-        <VLogo class="col logo-col"/>
-          <SearchForm
-              v-if="isShowSearch"
-              class="col search-col"
-          />
-          <PagesNavigation
-              v-if="isOpenNav"
-              class="col navigation-col"
-              :class="isMobileScreen && 'mobile-navigation'"
-              :is-mobile="isMobileScreen"
-              @on-click="setIsShowNavigation(false)"
-          />
-          <div
-              v-if="isMobileScreen"
-              class="col burger-col"
-          >
-            <BurgerButton
-                :is-active="isShowNavigation"
-                @on-click="setIsShowNavigation(!isShowNavigation)"
-            />
-          </div>
-      </div>
-    </div>
+	<div class="container">
+	  <div class="row header-row">
+		<VLogo class="col logo-col" />
+		<SearchForm
+			v-if="isShowSearch"
+			class="col search-col"
+		/>
+		<PagesNavigation
+			v-if="isOpenNav"
+			class="col navigation-col"
+			:class="isMobileScreen && 'mobile-navigation'"
+			:is-mobile="isMobileScreen"
+			@on-click="setIsShowNavigation(false)"
+		/>
+		<div
+			v-if="isMobileScreen"
+			class="col burger-col"
+		>
+		  <BurgerButton
+			  :is-active="isShowNavigation"
+			  @on-click="setIsShowNavigation(!isShowNavigation)"
+		  />
+		</div>
+	  </div>
+	</div>
   </header>
 </template>
 
