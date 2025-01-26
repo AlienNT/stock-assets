@@ -5,8 +5,9 @@ import {StoreInterface} from "@/types/StoreTypes.ts";
 
 const state: StoreInterface<ImageHitInterface> = reactive({
     hits: [],
-    totalHits: undefined as unknown as number,
-    total: undefined as unknown as number
+    totalHits: 0,
+    total: 0,
+    page: 1
 })
 
 
@@ -17,6 +18,11 @@ export function useImageStore() {
     }
     const totalImages = computed(() => state.totalHits)
     const total = computed(() => state.total)
+    const page = computed(() => state.page)
+
+    function setPage(page: number) {
+        state.page = page
+    }
 
     function setImages(images: ImageHitInterface[]) {
         state.hits = images
@@ -29,17 +35,17 @@ export function useImageStore() {
     function fetchImages() {
         const {request, isLoading} = useApiRequest()
 
-        async function apiRequest(params: ImageRequestInterface) {
+        async function apiRequest(params: ImageRequestInterface): Promise<ImageResponseInterface | void> {
             return await request<ImageRequestInterface, ImageResponseInterface>({
                 params,
             }).then(({data}) => {
-                const {hits, totalHits, total} = {...data}
+                const {hits, totalHits, total} = data
 
                 addImages(hits)
                 state.totalHits = totalHits
                 state.total = total
 
-                return {hits, totalHits, total}
+                return data
 
             }).catch((error) => {
                 console.log({error})
@@ -47,7 +53,7 @@ export function useImageStore() {
         }
 
         return {
-            request: (params: ImageRequestInterface) => apiRequest(params),
+            request: apiRequest,
             isLoading
         }
     }
@@ -73,7 +79,25 @@ export function useImageStore() {
         }
     }
 
+    function resetState() {
+        state.hits = []
+        state.totalHits = 0
+        state.total = 0
+        state.page = 1
+    }
+
     return {
-        images, imageById, addImages, fetchImages, setImages, totalImages, total, fetchImage
+        images,
+        imageById,
+        addImages,
+        fetchImages,
+        setImages,
+        totalImages,
+        total,
+        fetchImage,
+        resetState,
+
+        page,
+        setPage
     }
 }
