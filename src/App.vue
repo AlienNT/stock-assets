@@ -3,6 +3,7 @@ import TheMain from '@/TheMain.vue'
 import TheHeader from '@/TheHeader.vue'
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import { useUtils } from '@/composables/useUtils.ts'
+import TheFooter from '@/TheFooter.vue'
 
 const { setIsMobileDevice, setIsMobileScreen, isFocusedScreen, setIsFocusedScreen, isMobileScreen } = useUtils()
 
@@ -48,6 +49,7 @@ watch(() => isMobileScreen.value, (value) => {
 <template>
   <TheHeader />
   <TheMain />
+  <TheFooter />
 </template>
 
 <style>
