@@ -2,9 +2,7 @@
 import {ImageHitInterface} from "@/types/ImageTypes.ts";
 import ImageItem from "@/components/image/ImageItem.vue";
 
-export interface ImageListItemPropsInterface extends ImageHitInterface {
-  // tags?: string
-}
+export type ImageListItemPropsInterface = ImageHitInterface
 
 defineProps<ImageListItemPropsInterface>()
 defineEmits(['onTagClick'])

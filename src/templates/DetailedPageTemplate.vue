@@ -7,10 +7,10 @@
     <div class="container">
       <div class="row">
         <div class="col detailed-page-content">
-          <slot name="content"/>
+          <slot name="content" />
         </div>
         <div class="col detailed-page-info">
-          <slot name="info"/>
+          <slot name="info" />
         </div>
       </div>
     </div>

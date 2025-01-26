@@ -2,8 +2,7 @@
 import {VideoHitInterface} from "@/types/VideoTypes.ts";
 import VideoItem from "@/components/video/VideoItem.vue";
 
-export interface VideoListItemProps extends VideoHitInterface {
-}
+export type VideoListItemProps = VideoHitInterface
 
 defineProps<VideoListItemProps>()
 

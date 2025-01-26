@@ -3,11 +3,11 @@
 </script>
 
 <template>
- <div class="loader-container">
-   <div class="loader-wrapper">
-     <span class="loader"></span>
-   </div>
- </div>
+  <div class="loader-container">
+    <div class="loader-wrapper">
+      <span class="loader" />
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">

@@ -10,13 +10,14 @@ export interface NavigationInterface {
 }
 
 export interface PageNavigationPropsInterface {
-  navigation?: NavigationInterface[],
+  navigation?: NavigationInterface[] | undefined,
   showBackButton?: boolean,
   backButtonText?: string,
   isMobile?: boolean,
 }
 
 const props = withDefaults(defineProps<PageNavigationPropsInterface>(), {
+  navigation: undefined,
   backButtonText: 'back',
   showBackButton: true,
   showBackButtonText: true,
@@ -88,7 +89,6 @@ onBeforeMount(() => {
 .pages-navigation__wrapper,
 .pages-navigation-list {
   display: flex;
-  //gap: 15px;
 }
 
 .pages-navigation,

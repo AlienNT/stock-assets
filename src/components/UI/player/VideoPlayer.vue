@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import VVideo, {VideoPropsInterface} from "@/components/UI/VVideo.vue";
-import {computed, reactive} from "vue";
-import {formattedQuality} from "@/helpers/formatHelper.ts";
-import VideoProgressBar from "@/components/UI/player/VideoProgressBar.vue";
-import {debounce} from "@/helpers/templateHelper.ts";
+import VVideo, { VideoPropsInterface } from '@/components/UI/VVideo.vue'
+import { computed, reactive } from 'vue'
+import { formattedQuality } from '@/helpers/formatHelper.ts'
+import { debounce } from '@/helpers/templateHelper.ts'
+import VideoProgressBar from '@/components/UI/player/VideoProgressBar.vue'
 
-export interface VideoPlayerPropsInterface extends VideoPropsInterface {
-}
+export type VideoPlayerPropsInterface = VideoPropsInterface
 
 export interface VideoPlayerStateInterface {
   fullScreen?: boolean,
@@ -19,7 +18,7 @@ export interface VideoPlayerStateInterface {
 }
 
 withDefaults(defineProps<VideoPlayerPropsInterface>(), {
-  preload: 'auto',
+  preload: 'auto'
 })
 
 const state: VideoPlayerStateInterface = reactive({
@@ -29,7 +28,7 @@ const state: VideoPlayerStateInterface = reactive({
   duration: 0,
   onPlaying: null as unknown as Promise<void>,
   isHovered: false,
-  isPlaying: false,
+  isPlaying: false
 })
 
 const resolution = computed(() => {
@@ -41,30 +40,30 @@ const isShowControls = computed(() => {
 })
 
 function setVideoElement(videoElement: HTMLVideoElement): void {
-  state.videoElement = videoElement;
-  state.duration = videoElement.duration;
+  state.videoElement = videoElement
+  state.duration = videoElement.duration
 }
 
 function onLoad(e: Event): void {
-  setVideoElement(e.target as unknown as HTMLVideoElement);
+  setVideoElement(e.target as unknown as HTMLVideoElement)
 }
 
 function onTimeUpdate(e: Event): void {
-  const target = e.target as unknown as HTMLVideoElement;
-  state.currentTime = target.currentTime;
+  const target = e.target as unknown as HTMLVideoElement
+  state.currentTime = target.currentTime
 }
 
 function onProgressBarClick(time: number): void {
-  state.videoElement.currentTime = time;
+  state.videoElement.currentTime = time
 }
 
 function onFullScreen() {
-  state.fullScreen = !state.fullScreen;
+  state.fullScreen = !state.fullScreen
 }
 
 function onVideoPlay() {
   if (!state.onPlaying) {
-    return onPlay(state.videoElement)
+	return onPlay(state.videoElement)
   }
   return onPause(state.videoElement)
 }
@@ -77,11 +76,11 @@ function onPlay(item: HTMLVideoElement) {
 function onPause(item: HTMLVideoElement) {
   if (item.played) {
 
-    state.onPlaying?.then(() => {
-      item.pause()
-      state.isPlaying = false
-      state.onPlaying = undefined
-    })
+	state.onPlaying?.then(() => {
+	  item.pause()
+	  state.isPlaying = false
+	  state.onPlaying = undefined
+	})
   }
 }
 
@@ -91,64 +90,64 @@ const videoMouseenterDebounce = debounce(() => state.isHovered = false, 3000)
 function onMouseEnter() {
   if (state.isPlaying) {
 
-    state.isHovered = true
-    videoMouseenterDebounce()
+	state.isHovered = true
+	videoMouseenterDebounce()
   }
 }
 </script>
 
 <template>
   <div
-      class="video-player"
-      :class="state.fullScreen && 'full-screen'"
-      @mousemove="onMouseEnter"
+	  class="video-player"
+	  :class="state.fullScreen && 'full-screen'"
+	  @mousemove="onMouseEnter"
   >
-    <VVideo
-        :src="src"
-        :poster="poster"
-        :autoplay="false"
-        :loop="loop"
-        :muted="muted"
-        :playsinline="playsinline"
-        :preload="preload"
-        @on-load="onLoad"
-        @on-time-update="onTimeUpdate"
-    />
-    <div class="video-actions">
-      <div class="top-line">
-        <transition name="fade" appear>
-          <div class="line-wrapper" v-if="isShowControls">
-            <div class="resolution">
-              {{ resolution }}
-            </div>
-            <button
-                type="button"
-                class="full-screen-button"
-                @click="onFullScreen"
-            />
-          </div>
-        </transition>
-      </div>
-      <div class="middle-line">
-        <transition name="fade" appear>
-          <div
-              v-show="isShowControls"
-              class="video-play"
-              @click="onVideoPlay"
-          />
-        </transition>
-      </div>
-      <div class="bottom-line">
-        <transition name="fade" appear>
-          <VideoProgressBar
-              v-if="isShowControls"
-              :duration="state.duration"
-              :currentTime="state.currentTime"
-              @on-click="onProgressBarClick"
-          />
-        </transition>
-      </div>
-    </div>
+	<VVideo
+		:src="src"
+		:poster="poster"
+		:autoplay="false"
+		:loop="loop"
+		:muted="muted"
+		:playsinline="playsinline"
+		:preload="preload"
+		@on-load="onLoad"
+		@on-time-update="onTimeUpdate"
+	/>
+	<div class="video-actions">
+	  <div class="top-line">
+		<transition name="fade" appear>
+		  <div v-if="isShowControls" class="line-wrapper">
+			<div class="resolution">
+			  {{ resolution }}
+			</div>
+			<button
+				type="button"
+				class="full-screen-button"
+				@click="onFullScreen"
+			/>
+		  </div>
+		</transition>
+	  </div>
+	  <div class="middle-line">
+		<transition name="fade" appear>
+		  <div
+			  v-show="isShowControls"
+			  class="video-play"
+			  @click="onVideoPlay"
+		  />
+		</transition>
+	  </div>
+	  <div class="bottom-line">
+		<transition name="fade" appear>
+		  <VideoProgressBar
+			  v-if="isShowControls"
+			  :duration="state.duration"
+			  :current-time="state.currentTime"
+			  @on-click="onProgressBarClick"
+		  />
+		</transition>
+	  </div>
+	</div>
   </div>
 </template>
 
@@ -194,17 +193,17 @@ function onMouseEnter() {
   cursor: pointer;
 
   &:before {
-    content: '';
-    width: 50px;
-    height: 50px;
-    display: block;
-    mask: url("../../../../public/svg/play-svgrepo-com.svg") no-repeat center center /contain;
-    background-color: rgba(255, 255, 255, 0.66);
-    cursor: pointer;
+	content: '';
+	width: 50px;
+	height: 50px;
+	display: block;
+	mask: url("../../../../public/svg/play-svgrepo-com.svg") no-repeat center center /contain;
+	background-color: rgba(255, 255, 255, 0.66);
+	cursor: pointer;
 
-    &:hover {
-      background-color: rgba(255, 255, 255, 1);
-    }
+	&:hover {
+	  background-color: rgba(255, 255, 255, 1);
+	}
   }
 }
 
@@ -240,10 +239,10 @@ function onMouseEnter() {
   cursor: pointer;
 
   &:after {
-    content: '';
-    display: block;
-    mask: url("../../../../public/svg/expand1-svgrepo-com.svg") no-repeat center center /contain;
-    background: #ffffff;
+	content: '';
+	display: block;
+	mask: url("../../../../public/svg/expand1-svgrepo-com.svg") no-repeat center center /contain;
+	background: #ffffff;
   }
 }
 

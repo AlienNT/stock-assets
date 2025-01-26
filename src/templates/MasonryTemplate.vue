@@ -1,16 +1,16 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="Type">
 import {computed, onBeforeUnmount, onMounted} from "vue";
 import {VirtualWaterfall} from "@lhlyu/vue-virtual-waterfall";
 import LoaderDotted from "@/components/UI/LoaderDotted.vue";
 import SearchNotFound from "@/components/UI/SearchNotFound.vue";
 
-export interface MasonryTemplateProps {
-  items: any[],
+interface MasonryTemplateProps {
+  items: Type[],
   gap?: number,
   maxColumnCount?: number,
   minColumnCount?: number,
   rowKey?: string,
-  calcItemHeight?: (item: any, itemWith: number) => number,
+  calcItemHeight?: (item: Type, itemWith: number) => number,
   virtual?: boolean,
   itemMinWidth?: number,
   isLoading?: boolean
@@ -61,16 +61,16 @@ onBeforeUnmount(() => {
         v-if="items.length"
         :items="items"
         :gap="gap"
-        :maxColumnCount="maxColumnCount"
-        :minColumnCount="minColumnCount"
-        :rowKey="rowKey"
-        :calcItemHeight="calcItemHeight"
+        :max-column-count="maxColumnCount"
+        :min-column-count="minColumnCount"
+        :row-key="rowKey"
+        :calc-item-height="calcItemHeight"
         :virtual="virtual"
-        :itemMinWidth="itemMinWidth"
+        :item-min-width="itemMinWidth"
     >
       <template #default="{item}:{item: any}">
         <transition-group appear name="fade">
-          <div class="masonry-item" :key="item.id">
+          <div :key="item.id" class="masonry-item">
             <slot
                 name="content"
                 :item="item"

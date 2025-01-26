@@ -26,4 +26,4 @@ export interface ImageHitInterface extends BaseHitInterface{
     imageHeight?: number,
     imageSize?: number
 }
-export interface ImageResponseInterface extends BaseResponseInterface<ImageHitInterface>{}
+export type ImageResponseInterface = BaseResponseInterface<ImageHitInterface>

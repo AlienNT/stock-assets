@@ -25,14 +25,21 @@ function onSubmit() {
 </script>
 
 <template>
-  <form class="search-form" @submit.prevent="onSubmit">
+  <form
+    class="search-form"
+    @submit.prevent="onSubmit"
+  >
     <SearchField
-        :value="searchQuery"
-        :disabled="isDisabled"
-        @on-change="e => state.searchValue = e"
+      :value="searchQuery"
+      :disabled="isDisabled"
+      @on-change="e => state.searchValue = e"
     />
     <div class="search-button-wrapper">
-      <button class="search-button" type="submit" title="search button"/>
+      <button
+        class="search-button"
+        type="submit"
+        title="search button"
+      />
     </div>
   </form>
 </template>

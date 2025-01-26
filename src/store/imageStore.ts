@@ -1,4 +1,4 @@
-import {computed, ComputedRef, reactive} from "vue";
+import {ComputedRef, computed, reactive} from "vue";
 import {ImageHitInterface, ImageRequestInterface, ImageResponseInterface} from "../types/ImageTypes.ts";
 import {useApiRequest} from "../composables/useApiRequest.ts";
 import {StoreInterface} from "@/types/StoreTypes.ts";

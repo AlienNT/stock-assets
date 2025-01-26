@@ -12,6 +12,8 @@ export interface PosterPropsInterface {
 }
 
 const props = withDefaults(defineProps<PosterPropsInterface>(), {
+  src: '',
+  title: '',
   sourceLinkText: 'View source',
   sourceLinkUrl: 'https://pixabay.com/',
   posterType: 'image',
@@ -53,7 +55,7 @@ watch(() => isFocusedScreen.value, (value) => {
         :poster="posterType === 'video' && posterUrl"
         :alt="posterType==='image' && 'poster image'"
         class="poster-media-container"
-        @onHTMLElement="onHTMLElement"
+        @on-h-t-m-l-element="onHTMLElement"
     />
     <div class="container">
       <div class="poster-content">

@@ -26,5 +26,4 @@ export interface VideoHitInterface extends BaseHitInterface {
     videos: VideoHitVideosInterface
 }
 
-export interface VideoResponseInterface extends BaseResponseInterface<VideoHitInterface> {
-}
+export type VideoResponseInterface = BaseResponseInterface<VideoHitInterface>

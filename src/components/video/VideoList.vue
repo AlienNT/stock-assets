@@ -42,6 +42,7 @@ function calcItemHeight(item: VideoHitInterface, itemWidth: number): number {
     >
       <template #content="{item}: {item: VideoHitInterface}">
         <VideoListItem
+            :id="item.id"
             class="video-list-item"
             :videos="item.videos"
             :comments="item.comments"
@@ -54,7 +55,6 @@ function calcItemHeight(item: VideoHitInterface, itemWidth: number): number {
             :tags="item.tags"
             :type="item.type"
             :views="item.views"
-            :id="item.id"
             :page-u-r-l="item.pageURL"
             :user-image-u-r-l="item.userImageURL"
             @on-tag-click="e => setSearchQuery(e)"

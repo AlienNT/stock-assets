@@ -36,6 +36,10 @@ const videoData = computed(() => {
   return videoHits.value?.medium || undefined
 })
 
+const videosArray = computed(() => {
+  return Object.values(videoHits.value).map(value => ({...value}))
+})
+
 async function getVideo() {
   return request({
     id: id.value.toString(),
@@ -72,7 +76,7 @@ onMounted(() => {
       </div>
     </template>
     <template #info>
-      <div class="video-info" v-if="state.videoData.id">
+      <div v-if="state.videoData.id" class="video-info">
         <div class="info">
           <FileDetails
               :views="state.videoData.views"
@@ -85,11 +89,11 @@ onMounted(() => {
           >
             <template #fileDownload>
               <FileDetailsDownload
-                  file-type="video"
-                  :items="state.videoData.videos"
+				  :items="videosArray"
+				  file-type="video"
               >
                 <template
-                    #default="{item,events: {onClick}}: {item: FileDetailsDownloadFieldProps, events: {onClick: any}}">
+                    #default="{item, events: {onClick}}: {item: FileDetailsDownloadFieldProps, events: {onClick: any}}">
                   <FileDetailsDownloadField
                       :height="item.height"
                       :width="item.width"

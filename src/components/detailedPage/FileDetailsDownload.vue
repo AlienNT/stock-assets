@@ -1,21 +1,16 @@
-<script setup lang="ts">
-import {reactive} from "vue";
-import {useDownloader} from "@/composables/useDownloader.ts";
-import LoaderDotted from "@/components/UI/LoaderDotted.vue";
+<script setup lang="ts" generic="Type">
+import { reactive } from 'vue'
+import { useDownloader } from '@/composables/useDownloader.ts'
+import LoaderDotted from '@/components/UI/LoaderDotted.vue'
 
-export interface FileDetailsDownloadProps {
-  items: any,
+interface FileDetailsDownloadProps {
+  items: Type[],
   fileType: 'image' | 'video',
 }
 
-export interface FileDetailsDownloadItem {
-  item: any,
-}
-
 defineProps<FileDetailsDownloadProps>()
-const emit = defineEmits(['onClick'])
 
-const {isLoading, download} = useDownloader()
+const { isLoading, download } = useDownloader()
 
 const state = reactive({
   selectedUrl: ''
@@ -24,36 +19,37 @@ const state = reactive({
 function onClick(src: string) {
   state.selectedUrl = src
 
-  download({src})
+  download({ src })
 }
 
 </script>
 
 <template>
   <div
-      class="file-download"
-      :class="isLoading && 'disabled'"
+	  class="file-download"
+	  :class="isLoading && 'disabled'"
   >
-    <div
-        v-for="item in items"
-        class="file-download-option"
-    >
-      <slot
-          name="default"
-          :item="item"
-          :events="{
+	<div
+		v-for="(item, key) in items"
+		:key="key"
+		class="file-download-option"
+	>
+	  <slot
+		  name="default"
+		  :item="item"
+		  :events="{
             onClick,
           }"
-      />
-    </div>
-    <transition name="fade" appear>
-      <div
-          v-if="isLoading"
-          class="file-loader"
-      >
-        <LoaderDotted/>
-      </div>
-    </transition>
+	  />
+	</div>
+	<transition name="fade" appear>
+	  <div
+		  v-if="isLoading"
+		  class="file-loader"
+	  >
+		<LoaderDotted />
+	  </div>
+	</transition>
   </div>
 </template>
 

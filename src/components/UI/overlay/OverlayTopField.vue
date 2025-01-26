@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {normalizeCounter} from "@/helpers/formatHelper.ts";
-import {computed} from "vue";
-import imagesHelper from "@/helpers/imagesHelper.ts";
+import { normalizeCounter } from '@/helpers/formatHelper.ts'
+import { computed } from 'vue'
+import imagesHelper from '@/helpers/imagesHelper.ts'
 
 interface TopOverlayFieldPropsInterface {
   type: 'likes' | 'downloads' | 'views',
@@ -10,43 +10,45 @@ interface TopOverlayFieldPropsInterface {
 }
 
 const props = withDefaults(defineProps<TopOverlayFieldPropsInterface>(), {
-  isShow: true,
+  isShow: true
 })
 
 const displayValue = computed(() => {
-  return props.value ? normalizeCounter(props.value) : 0;
+  return props.value ? normalizeCounter(props.value) : 0
 })
 
 const bgUrl = computed(() => {
   switch (props.type) {
-    case 'likes':
-      return imagesHelper.LIKE;
-    case 'downloads':
-      return imagesHelper.DOWNLOAD;
-    case 'views':
-      return imagesHelper.VIEWS
+	case 'likes':
+	  return imagesHelper.LIKE
+	case 'downloads':
+	  return imagesHelper.DOWNLOAD
+	case 'views':
+	  return imagesHelper.VIEWS
+	default:
+	  return ''
   }
 })
 
 const styles = computed(() => [
-  bgUrl.value ? `mask-image: url(${bgUrl.value})` : '',
+  bgUrl.value ? `mask-image: url(${bgUrl.value})` : ''
 ].join('; '))
 </script>
 
 <template>
   <div
-      v-if="isShow"
-      :class="type"
-      :title="type"
-      class="top-overlay-field"
+	v-if="isShow"
+	:class="type"
+	:title="type"
+	class="top-overlay-field"
   >
     <span
-        class="icon"
-        :style="styles"
-    />
-    <span
-        class="value"
-    >
+	  class="icon"
+	  :style="styles"
+	/>
+	<span
+	  class="value"
+	>
       {{ displayValue }}
     </span>
   </div>
@@ -59,13 +61,13 @@ const styles = computed(() => [
   align-items: center;
 
   .icon {
-    width: 15px;
-    height: 15px;
-    display: block;
-    mask-size: contain;
-    mask-position: center center;
-    mask-repeat: no-repeat;
-    background-color: #fff;
+	width: 15px;
+	height: 15px;
+	display: block;
+	mask-size: contain;
+	mask-position: center center;
+	mask-repeat: no-repeat;
+	background-color: #fff;
   }
 }
 </style>

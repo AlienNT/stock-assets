@@ -9,8 +9,7 @@ import OverlayListItem from "@/components/UI/overlay/OverlayListItem.vue";
 import VideoItemDetails from "@/components/video/VideoItemDetails.vue";
 import VVideo from "@/components/UI/VVideo.vue";
 
-export interface VideoItemPropsInterface extends VideoHitInterface {
-}
+export type VideoItemPropsInterface = VideoHitInterface
 
 const props = defineProps<VideoItemPropsInterface>()
 const emit = defineEmits(['onTagClick'])

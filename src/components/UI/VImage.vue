@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {computed, ref} from "vue";
+import { computed, ref } from 'vue'
 
 export interface ImageProps {
   src: string | undefined,
@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<ImageProps>(), {
   objectFit: 'contain',
   transitionDuration: 500,
   minWidth: '240px',
+  minHeight: 'auto',
   loading: 'lazy'
 })
 
@@ -38,7 +39,7 @@ const style = computed(() => [
   props.background ? `background: ${props.background}` : '',
   props.useTransition ? `transition: ease ${props.transitionDuration / 1000}s` : '',
   props.minWidth ? `min-width: ${props.minWidth}` : '',
-  props.minHeight ? `min-height: ${props.minHeight}` : '',
+  props.minHeight ? `min-height: ${props.minHeight}` : ''
 ].join('; '))
 
 function onLoad() {
@@ -50,12 +51,12 @@ function onLoad() {
 <template>
   <div class="image-wrapper">
     <img
-        :class="isLoad && 'show'"
-        :style="style"
-        :src="props.src"
-        :alt="alt"
-        :loading="loading"
-        @load="onLoad"
+      :class="isLoad && 'show'"
+      :style="style"
+      :src="props.src"
+      :alt="alt"
+      :loading="loading"
+      @load="onLoad"
     >
   </div>
 </template>
@@ -67,6 +68,7 @@ function onLoad() {
   height: 100%;
   width: 100%;
 }
+
 img {
   opacity: 0;
   transition: opacity .5s ease;

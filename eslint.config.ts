@@ -85,7 +85,7 @@ export default defineConfigWithVueTs(
         "exports": "always-multiline",
         "functions": "always-multiline"
       }],
-      "sort-imports": ["warn", {
+      "sort-imports": ["error", {
         "ignoreCase": false,
         "ignoreDeclarationSort": true,
         "ignoreMemberSort": false,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, onUpdated, Ref, ref, watch} from "vue";
+import {Ref, computed, onMounted, onUpdated, ref, watch} from "vue";
 import {setCSSProperty} from "@/helpers/formatHelper.ts";
 
 import PagesNavigation from "@/components/navigation/PagesNavigation.vue";
@@ -73,9 +73,9 @@ watch(() => isOpenNav.value, (value) => {
 
 <template>
   <header
+      ref="header"
       :class="isMobileScreen && isOpenNav && 'mobile-header'"
       class="header"
-      ref="header"
   >
     <div class="container">
       <div class="row header-row">

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {computed} from "vue";
-import OverlayTopField from "@/components/UI/overlay/OverlayTopField.vue";
-import OverlayTagList from "@/components/UI/overlay/OverlayTagList.vue";
+import { computed } from 'vue'
+import OverlayTopField from '@/components/UI/overlay/OverlayTopField.vue'
+import OverlayTagList from '@/components/UI/overlay/OverlayTagList.vue'
 
 export interface ListItemOverlayProps {
   views?: number,
@@ -15,50 +15,54 @@ export interface ListItemOverlayProps {
 }
 
 const props = withDefaults(defineProps<ListItemOverlayProps>(), {
+  views: 0,
+  downloads: 0,
+  likes: 0,
+  tags: '',
   showTagsCount: 3,
   isShowLikes: true,
   isShowDownloads: true,
-  isShowViews: true,
+  isShowViews: true
 })
 
 const emit = defineEmits(['onTagClick'])
 
 const tagsArray = computed(() => {
-  return props.tags ? props.tags.split(",").splice(0, props.showTagsCount) : []
+  return props.tags ? props.tags.split(',').splice(0, props.showTagsCount) : []
 })
 
 </script>
 
 <template>
   <div class="list-item-with-overlay">
-    <div class="list-item-wrapper">
-      <slot name="listItem"/>
-    </div>
-    <div class="overlay">
-      <div class="overlay__top">
-        <OverlayTopField
-            type="likes"
-            :value="likes"
-        />
-        <OverlayTopField
-            type="views"
-            :value="views"
-        />
-        <OverlayTopField
-            type="downloads"
-            :value="downloads"
-        />
-      </div>
-      <div class="overlay__bottom">
-        <OverlayTagList
-            :tags="tagsArray"
-            @on-tag-click="tag => emit('onTagClick', tag)"
-        />
-        <div class="custom">
-          <slot name="customRight"/>
-        </div>
-      </div>
-    </div>
+	<div class="list-item-wrapper">
+	  <slot name="listItem" />
+	</div>
+	<div class="overlay">
+	  <div class="overlay__top">
+		<OverlayTopField
+		  type="likes"
+		  :value="likes"
+		/>
+		<OverlayTopField
+		  type="views"
+		  :value="views"
+		/>
+		<OverlayTopField
+		  type="downloads"
+		  :value="downloads"
+		/>
+	  </div>
+	  <div class="overlay__bottom">
+		<OverlayTagList
+		  :tags="tagsArray"
+		  @on-tag-click="tag => emit('onTagClick', tag)"
+		/>
+		<div class="custom">
+		  <slot name="customRight" />
+		</div>
+	  </div>
+	</div>
   </div>
 </template>
 
@@ -70,8 +74,8 @@ const tagsArray = computed(() => {
   position: relative;
 
   &:hover .overlay {
-    opacity: 1;
-    visibility: visible;
+	opacity: 1;
+	visibility: visible;
   }
 }
 

@@ -34,7 +34,11 @@ const styles = computed(() => [
       @click="emit('onClick')"
   >
     <div class="line-wrapper">
-      <div v-for="lineKey in 3" class="burger-button__line" :key="lineKey"/>
+      <div
+		  v-for="lineKey in 3"
+		  :key="lineKey"
+		  class="burger-button__line"
+	  />
     </div>
   </div>
 </template>

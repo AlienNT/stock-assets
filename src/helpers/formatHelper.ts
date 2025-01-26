@@ -40,7 +40,7 @@ export function setCSSProperty(property: string, value: string): void {
     document.documentElement.style.setProperty(property, value);
 }
 
-export function delay(time: number, func?: Function) {
+export function delay(time: number, func?: () => void): Promise<void> {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(func && func())
@@ -62,7 +62,8 @@ export function formattedQuality(height: number): string {
         1080: 'FHD',
         1440: '2K',
         2160: '4K'
+    } as {
+        [key: number]: string
     }
-    //@ts-ignore
     return qualities[height] || height + 'p'
 }

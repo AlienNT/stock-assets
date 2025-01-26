@@ -1,51 +1,53 @@
 <script setup lang="ts">
-import TheMain from "@/TheMain.vue";
-import TheHeader from "@/TheHeader.vue";
-import {onBeforeUnmount, onMounted, watch} from "vue";
-import {useUtils} from "@/composables/useUtils.ts";
+import TheMain from '@/TheMain.vue'
+import TheHeader from '@/TheHeader.vue'
+import { onBeforeUnmount, onMounted, watch } from 'vue'
+import { useUtils } from '@/composables/useUtils.ts'
 
-const {setIsMobileDevice, setIsMobileScreen, isFocusedScreen, setIsFocusedScreen, isMobileScreen} = useUtils()
+const { setIsMobileDevice, setIsMobileScreen, isFocusedScreen, setIsFocusedScreen, isMobileScreen } = useUtils()
 
 onMounted(() => {
-  setIsMobileScreen();
+  setIsMobileScreen()
   setIsMobileDevice()
 
-  addEventListener("resize", () => {
+  addEventListener('resize', () => {
     setIsMobileScreen()
-  });
+  })
 
-  addEventListener("blur", () => {
+  addEventListener('blur', () => {
     setIsFocusedScreen(false)
-  });
+  })
 
-  addEventListener("focus", () => {
+  addEventListener('focus', () => {
     setIsFocusedScreen(true)
-  });
+  })
 })
 
 onBeforeUnmount(() => {
-  removeEventListener("resize", () => {
+  removeEventListener('resize', () => {
     setIsMobileScreen()
-  });
+  })
 })
 
 watch(() => isFocusedScreen.value, (value) => {
   document.title = !value ?
-      String.fromCharCode(9214) + ' Stock Assets' :
-      'Stock Assets';
+    String.fromCharCode(9214) + ' Stock Assets' :
+    'Stock Assets'
 })
 
 watch(() => isMobileScreen.value, (value) => {
-  value ?
-      document.body.classList.add('mobile-screen') :
-      document.body.classList.remove('mobile-screen')
+  if (value) {
+    document.body.classList.add('mobile-screen')
+  } else {
+    document.body.classList.remove('mobile-screen')
+  }
 })
 
 </script>
 
 <template>
-  <TheHeader/>
-  <TheMain/>
+  <TheHeader />
+  <TheMain />
 </template>
 
 <style>

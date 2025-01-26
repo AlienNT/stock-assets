@@ -30,7 +30,7 @@ export function useVideoStore() {
         const {request, isLoading} = useApiRequest()
 
         async function apiRequest(params: VideoRequestInterface) {
-            let page = params.page || 1
+            const page = params.page || 1
 
             return await request<VideoRequestInterface, VideoResponseInterface>({
                 url: 'videos/',
