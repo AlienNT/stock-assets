@@ -90,13 +90,15 @@ watch(() => isDisabledScrollable.value, (value) => {
 			v-if="isShowSearch"
 			class="col search-col"
 		/>
-		<PagesNavigation
-			v-if="isOpenNav"
-			class="col navigation-col"
-			:class="isMobileScreen && 'mobile-navigation'"
-			:is-mobile="isMobileScreen"
-			@on-click="setIsShowNavigation(false)"
-		/>
+		<transition name="fade" appear>
+		  <PagesNavigation
+			  v-if="isOpenNav"
+			  class="col navigation-col"
+			  :class="isMobileScreen && 'mobile-navigation'"
+			  :is-mobile="isMobileScreen"
+			  @on-click="setIsShowNavigation(false)"
+		  />
+		</transition>
 		<div
 			v-if="isMobileScreen"
 			class="col burger-col"
@@ -120,7 +122,7 @@ $opacity: var(--headerOpacity, 0);
   width: 100%;
   background: rgba(0, 0, 0, $opacity);
   padding: 10px 0;
-  z-index: 3;
+  z-index: 99;
 }
 
 .header-row {
