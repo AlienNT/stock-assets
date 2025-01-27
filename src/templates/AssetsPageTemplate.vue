@@ -64,7 +64,7 @@ onMounted(() => {
 	scrollToViewport()
   }
 
-  createObserver({ rootMargin: '100px' })
+  createObserver({ rootMargin: '-20px' })
   observeTarget(templateContainer.value)
 })
 
@@ -79,9 +79,6 @@ watch(() => searchParams.value, async (value, oldValue) => {
 	await load()
 	scrollToViewport()
   }
-}, {
-  deep: true,
-  immediate: true
 })
 
 function load() {
