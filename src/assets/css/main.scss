@@ -66,6 +66,5 @@ body, :root {
 
 .scroll-disabled {
   width: 100%;
-  position: fixed;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
