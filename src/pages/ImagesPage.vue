@@ -6,7 +6,7 @@ import { useConfig } from '@/composables/useConfig.ts'
 import ImageList from '@/components/image/ImageList.vue'
 import AssetsPageTemplate from '@/templates/AssetsPageTemplate.vue'
 
-const { fetchImages, images, totalImages, page, setPage, resetState } = useImageStore()
+const { fetchImages, images, totalImages, page, setPage, resetStore } = useImageStore()
 const { appConfig } = useConfig()
 const { request, isLoading } = fetchImages()
 
@@ -24,7 +24,7 @@ const { request, isLoading } = fetchImages()
 	  :page="page"
 	  :per-page="appConfig.IMAGE_REQUEST_PER_PAGE"
 	  :request="request"
-	  :reset="resetState"
+	  :reset="resetStore"
 	  :set-next-page="() => setPage(page + 1)"
 	  :total="totalImages"
   >

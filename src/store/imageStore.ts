@@ -79,7 +79,7 @@ export function useImageStore() {
         }
     }
 
-    function resetState() {
+    function resetStore() {
         state.hits = []
         state.totalHits = 0
         state.total = 0
@@ -95,7 +95,7 @@ export function useImageStore() {
         totalImages,
         total,
         fetchImage,
-        resetState,
+        resetStore,
 
         page,
         setPage
