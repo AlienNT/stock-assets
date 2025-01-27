@@ -2,10 +2,13 @@
 import VPoster from '@/components/UI/VPoster.vue'
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import useObserver from '@/composables/useObserver.ts'
-import { useSearch } from '@/composables/useSearch.ts'
+import { SearchFilterType, useSearch } from '@/composables/useSearch.ts'
 import { ImageRequestInterface } from '@/types/ImageTypes.ts'
 import { VideoRequestInterface } from '@/types/VideoTypes.ts'
 import { isLastPage } from '@/helpers/requestHelper.ts'
+import SearchOrder from '@/components/search/SearchOrder.vue'
+import SearchFilter from '@/components/search/SearchFilter.vue'
+import SearchFilterButton from '@/components/search/SearchFilterButton.vue'
 
 interface AssetsPageTemplateProps {
   isShowPoster: boolean,
@@ -23,7 +26,7 @@ interface AssetsPageTemplateProps {
 }
 
 const { createObserver, entryByTarget, observeTarget } = useObserver()
-const { searchQuery } = useSearch()
+const { searchQuery, searchOrder, setSearchOrder, filterFields, setFilterFields } = useSearch()
 
 const props = defineProps<AssetsPageTemplateProps>()
 
@@ -48,6 +51,10 @@ const canLoadMore = computed(() => {
   })
 })
 
+const searchParams = computed(() => {
+  return `${searchQuery.value}${searchOrder.value}` + JSON.stringify(filterFields.value)
+})
+
 onMounted(() => {
   if (!props.itemsCount && state.isListInViewport) {
 	load().then(() => scrollToViewport())
@@ -65,13 +72,16 @@ watch(() => isIntersecting.value, (value) => {
   onIntersected(value)
 })
 
-watch(() => searchQuery.value, async (value, oldValue) => {
+watch(() => searchParams.value, async (value, oldValue) => {
   if (value && value !== oldValue && !props.isLoading) {
 
 	props.reset()
 	await load()
 	scrollToViewport()
   }
+}, {
+  deep: true,
+  immediate: true
 })
 
 function load() {
@@ -100,6 +110,7 @@ function scrollToViewport() {
 	behavior: 'smooth'
   })
 }
+
 </script>
 
 <template>
@@ -111,6 +122,28 @@ function scrollToViewport() {
 		:src="posterSrc"
 	/>
 	<div id="assetsListViewport" ref="templateContainer" class="container">
+	  <div class="row search-row">
+		<SearchFilterButton
+			class="col filter-col"
+			@on-submit="setFilterFields"
+		>
+		  <template #popup="{events: {onSubmit}} : {events: {onSubmit: (e:SearchFilterType) => void}}">
+			<SearchFilter
+				:category="filterFields.category"
+				:editors_choice="filterFields.editors_choice"
+				:min_height="filterFields.min_height"
+				:min_width="filterFields.min_width"
+				:safesearch="filterFields.safesearch"
+				@on-submit="onSubmit"
+			/>
+		  </template>
+		</SearchFilterButton>
+		<SearchOrder
+			class="col search-order"
+			:order="searchOrder"
+			@on-click="setSearchOrder"
+		/>
+	  </div>
 	  <div class="row">
 		<slot
 			name="content"
@@ -129,5 +162,15 @@ function scrollToViewport() {
 
 .row {
   flex-direction: column;
+}
+
+.filter-col {
+  //height: 100%;
+  display: flex;
+  flex: 1;
+}
+.search-row {
+  flex-direction: row;
+  justify-content: space-between;
 }
 </style>
