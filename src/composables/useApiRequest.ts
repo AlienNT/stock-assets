@@ -16,7 +16,7 @@ export interface ApiResponseInterface<ResponseInterface> {
   status: number;
 }
 
-const { searchQuery } = useSearch()
+const { searchQuery, searchOrder, filterFields } = useSearch()
 
 function getParamsString(params: UnknownObjectType): string {
   if (typeof params !== 'object') {
@@ -80,9 +80,11 @@ export function useApiRequest() {
     return new Promise((resolve, reject) => {
       try {
         const urlString = getUrlString(url, getParamsString({
-          ...params,
           key: apiConfig.API_KEY,
-          q: searchQuery.value
+          q: searchQuery.value,
+          order: searchOrder.value,
+          ...filterFields.value,
+          ...params,
         }))
 
         fetch(urlString, {
