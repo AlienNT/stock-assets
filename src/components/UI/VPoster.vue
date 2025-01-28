@@ -79,7 +79,7 @@ watch(() => isFocusedScreen.value, (value) => {
 
 <style scoped lang="scss">
 .poster {
-  height: calc(var(--vh) * 1);
+  height: calc(var(--vh, 100vh) * 1);
   padding-top: var(--headerH);
   width: 100%;
   display: flex;
