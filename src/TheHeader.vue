@@ -56,7 +56,7 @@ function calcOpacity(scrollHeight: number, windowHeight: number) {
   if (isNotTransparentBG.value && routeName.value) {
 	return 1
   }
-  const coefficient = +(scrollHeight * 2 / windowHeight).toFixed(2)
+  const coefficient = +(scrollHeight * 4 / windowHeight).toFixed(2)
   return coefficient <= 1 ? coefficient : 1
 }
 
