@@ -4,7 +4,6 @@ import { useUtils } from '@/composables/useUtils.ts'
 import TheMain from '@/TheMain.vue'
 import TheHeader from '@/TheHeader.vue'
 import TheFooter from '@/TheFooter.vue'
-import CustomScroll from '@/components/UI/CustomScroll.vue'
 
 const { setIsMobileDevice, setIsMobileScreen, isFocusedScreen, setIsFocusedScreen, isMobileScreen } = useUtils()
 
@@ -13,46 +12,44 @@ onMounted(() => {
   setIsMobileDevice()
 
   addEventListener('resize', () => {
-    setIsMobileScreen()
+	setIsMobileScreen()
   })
 
   addEventListener('blur', () => {
-    setIsFocusedScreen(false)
+	setIsFocusedScreen(false)
   })
 
   addEventListener('focus', () => {
-    setIsFocusedScreen(true)
+	setIsFocusedScreen(true)
   })
 })
 
 onBeforeUnmount(() => {
   removeEventListener('resize', () => {
-    setIsMobileScreen()
+	setIsMobileScreen()
   })
 })
 
 watch(() => isFocusedScreen.value, (value) => {
   document.title = !value ?
-    String.fromCharCode(9214) + ' Stock Assets' :
-    'Stock Assets'
+	  String.fromCharCode(9214) + ' Stock Assets' :
+	  'Stock Assets'
 })
 
 watch(() => isMobileScreen.value, (value) => {
   if (value) {
-    document.body.classList.add('mobile-screen')
+	document.body.classList.add('mobile-screen')
   } else {
-    document.body.classList.remove('mobile-screen')
+	document.body.classList.remove('mobile-screen')
   }
 })
 
 </script>
 
 <template>
-  <CustomScroll class="app-scroll-content">
-	<TheHeader />
-	<TheMain />
-	<TheFooter />
-  </CustomScroll>
+  <TheHeader />
+  <TheMain />
+  <TheFooter />
 </template>
 
 <style lang="scss" scoped>
@@ -61,9 +58,10 @@ watch(() => isMobileScreen.value, (value) => {
   padding: 0;
   box-sizing: border-box;
 }
+
 .app-scroll-content {
   .custom-scroll-bar {
-	margin-top: var(--headerH);
+	height: calc(var(--headerH) - var(--vh));
   }
 }
 
