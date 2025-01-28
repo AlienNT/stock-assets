@@ -4,6 +4,7 @@ import SearchField from "@/components/search/SearchField.vue";
 import {computed, reactive} from "vue";
 import {useSearch} from "@/composables/useSearch.ts";
 import {useRouter} from "vue-router";
+import imagesHelper from '@/helpers/imagesHelper.ts'
 
 const {setSearchQuery, searchQuery} = useSearch()
 const {currentRoute}=useRouter()
@@ -17,6 +18,12 @@ const enabledRoutes = ["/images", "/videos", '/']
 
 const isDisabled = computed(() => {
   return !enabledRoutes.find(route => route === currentRoute.value.fullPath)
+})
+
+const buttonStyles = computed(() => {
+  return [
+	  `mask-image: url(${imagesHelper.SEARCH})`
+  ].join('; ')
 })
 
 function onSubmit() {
@@ -37,6 +44,7 @@ function onSubmit() {
     <div class="search-button-wrapper">
       <button
         class="search-button"
+		:style="buttonStyles"
         type="submit"
         title="search button"
       />
@@ -46,7 +54,6 @@ function onSubmit() {
 
 <style scoped lang="scss">
 $fieldBGColor: #d6d6d6;
-$searchButtonBG: "../../../public/svg/search-svgrepo-com.svg";
 .search-form {
   display: flex;
   flex: 1;
@@ -76,7 +83,7 @@ $searchButtonBG: "../../../public/svg/search-svgrepo-com.svg";
   display: flex;
   align-items: center;
   gap: 5px;
-  mask-image: url($searchButtonBG);
+  //mask-image: url($searchButtonBG);
   mask-repeat: no-repeat;
   mask-size: 60%;
   mask-position: center center;
