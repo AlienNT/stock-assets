@@ -7,7 +7,7 @@ interface CustomScrollPropsInterface {
 }
 
 const props = withDefaults(defineProps<CustomScrollPropsInterface>(), {
-  maxHeight: '859px'
+  maxHeight: undefined,
 })
 
 const container = ref(undefined as unknown as HTMLElement)
@@ -157,7 +157,7 @@ function getCoords(elem: HTMLElement) { // кроме IE8-
   height: 100%;
   overflow-y: scroll;
   position: relative;
-  //display: flex;
+  max-height: var(--vh, 100vh);
   scrollbar-width: none;
 }
 
