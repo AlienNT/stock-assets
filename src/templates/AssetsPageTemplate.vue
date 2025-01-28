@@ -31,12 +31,14 @@ const { searchQuery, searchOrder, setSearchOrder, filterFields, setFilterFields 
 const props = defineProps<AssetsPageTemplateProps>()
 
 const templateContainer = ref(null as unknown as HTMLElement)
+const listViewport = ref(null as unknown as HTMLElement)
+
 const state = reactive({
   isListInViewport: false
 })
 
 const observeEntry = computed(() => {
-  return entryByTarget(templateContainer.value).value
+  return entryByTarget(listViewport.value).value
 })
 
 const isIntersecting = computed(() => {
@@ -64,8 +66,13 @@ onMounted(() => {
 	scrollToViewport()
   }
 
-  createObserver({ rootMargin: '-20px' })
-  observeTarget(templateContainer.value)
+  nextTick(() => {
+	createObserver({
+	  rootMargin: '0px',
+
+	})
+	observeTarget(listViewport.value)
+  })
 })
 
 watch(() => isIntersecting.value, (value) => {
@@ -118,7 +125,11 @@ function scrollToViewport() {
 		:poster-type="posterType"
 		:src="posterSrc"
 	/>
-	<div id="assetsListViewport" ref="templateContainer" class="container">
+	<div
+		id="assetsListViewport"
+		class="container"
+		ref="templateContainer"
+	>
 	  <div class="row search-row">
 		<SearchFilterButton
 			class="col filter-col"
@@ -141,7 +152,7 @@ function scrollToViewport() {
 			@on-click="setSearchOrder"
 		/>
 	  </div>
-	  <div class="row">
+	  <div class="row" ref="listViewport">
 		<slot
 			name="content"
 			:events="{onScrolled}"
