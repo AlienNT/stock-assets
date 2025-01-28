@@ -27,7 +27,7 @@ defineProps<FooterLinkItemPropsInterface>()
 <style scoped lang="scss">
 @use 'sass:color';
 $textColor: #8f8f8f;
-$linkColor: #585a9a;
+$linkColor: #8185e6;
 
 .footer-link__title,
 .footer-link__link  {
