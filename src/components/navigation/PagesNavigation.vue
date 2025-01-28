@@ -91,14 +91,16 @@ onBeforeMount(() => {
   display: flex;
 }
 
-.pages-navigation,
-.pages-navigation__wrapper {
+.pages-navigation {
   align-items: center;
 }
 
 .router-link, .pages-navigation__back-button {
   padding: 15px;
   display: block;
+}
+.pages-navigation__back-button {
+  padding: 5px 10px;
 }
 
 .pages-navigation {
