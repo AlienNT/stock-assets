@@ -26,7 +26,7 @@ interface SlotInterface {
 	  :items-count="videos.length"
 	  :is-loading="isLoading"
 	  :total="totalVideos"
-      poster-src="public/video/bg_tiny.mp4"
+      poster-src="/video/bg_tiny.mp4"
       title="Search free stock video footage & clips"
       class="videos-page"
       poster-type="video"
