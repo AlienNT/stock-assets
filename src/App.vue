@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import TheMain from '@/TheMain.vue'
-import TheHeader from '@/TheHeader.vue'
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import { useUtils } from '@/composables/useUtils.ts'
+import TheMain from '@/TheMain.vue'
+import TheHeader from '@/TheHeader.vue'
 import TheFooter from '@/TheFooter.vue'
+import CustomScroll from '@/components/UI/CustomScroll.vue'
 
 const { setIsMobileDevice, setIsMobileScreen, isFocusedScreen, setIsFocusedScreen, isMobileScreen } = useUtils()
 
@@ -47,15 +48,23 @@ watch(() => isMobileScreen.value, (value) => {
 </script>
 
 <template>
-  <TheHeader />
-  <TheMain />
-  <TheFooter />
+  <CustomScroll class="app-scroll-content">
+	<TheHeader />
+	<TheMain />
+	<TheFooter />
+  </CustomScroll>
 </template>
 
-<style>
+<style lang="scss" scoped>
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+.app-scroll-content {
+  .custom-scroll-bar {
+	margin-top: var(--headerH);
+  }
+}
+
 </style>
