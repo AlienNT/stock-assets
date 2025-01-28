@@ -109,7 +109,7 @@ function getPosition(event: MouseEvent) {
 
 
 function getCoords(elem: HTMLElement) { // кроме IE8-
-  let box = elem.getBoundingClientRect()
+  const box = elem.getBoundingClientRect()
 
   console.log({ box, parent: elem.offsetParent })
 
@@ -125,23 +125,23 @@ function getCoords(elem: HTMLElement) { // кроме IE8-
 
 <template>
   <div
-	  class="custom-scroll"
 	  ref="container"
+	  class="custom-scroll"
 	  :style="style"
 	  @scroll="onScroll"
   >
 	<div
-		class="custom-scroll-content"
 		ref="content"
+		class="custom-scroll-content"
 	>
 	  <slot name="default" />
 	</div>
 	<transition name="fade" appear>
-	  <div class="custom-scroll-bar" v-if="state.isShow">
+	  <div v-if="state.isShow" class="custom-scroll-bar">
 		<div class="custom-scroll-bar__track">
 		  <div
-			  class="custom-scroll-bar__thumb"
 			  ref="thumb"
+			  class="custom-scroll-bar__thumb"
 			  :style="scrollBarThumbStyle"
 			  draggable="false"
 			  @drag="onDrag"

@@ -127,8 +127,8 @@ function scrollToViewport() {
 	/>
 	<div
 		id="assetsListViewport"
-		class="container"
 		ref="templateContainer"
+		class="container"
 	>
 	  <div class="row search-row">
 		<SearchFilterButton
@@ -152,7 +152,7 @@ function scrollToViewport() {
 			@on-click="setSearchOrder"
 		/>
 	  </div>
-	  <div class="row" ref="listViewport">
+	  <div ref="listViewport" class="row">
 		<slot
 			name="content"
 			:events="{onScrolled}"
