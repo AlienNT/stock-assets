@@ -50,6 +50,7 @@ function onInput(e: Event) {
   const target = e.target as HTMLInputElement
 
   state.searchInputValue = target.value
+  emit('onPick', target.value)
 }
 
 function onFocus() {
@@ -70,6 +71,7 @@ function onPickCategory(e: CategoryType) {
 	<label class="search-filter-category__field">
 	  <input
 		  type="text"
+		  class="search-filter-field__input"
 		  placeholder="Select a category"
 		  :value="props.category"
 		  @input="onInput"
@@ -95,6 +97,7 @@ function onPickCategory(e: CategoryType) {
 
 <style scoped lang="scss">
 @use 'sass:color';
+@use '../../assets/css/mixins.scss';
 
 $categoryBackgroundColor: white;
 .search-filter-category {
@@ -104,7 +107,6 @@ $categoryBackgroundColor: white;
 
 .search-filter-category__field {
   border-radius: 5px;
-  border: 1px solid #ddd;
 
   input {
 	padding: 5px 15px;
@@ -120,7 +122,9 @@ $categoryBackgroundColor: white;
   position: absolute;
   max-height: 300px;
   overflow-y: scroll;
+  overflow-x: hidden;
   z-index: 1;
+  border-radius: 5px;
 }
 
 .show {
@@ -129,14 +133,15 @@ $categoryBackgroundColor: white;
 }
 
 .search-filter-category__list-item {
-  padding: 15px;
+  padding: 10px 15px;
+  cursor: pointer;
 
   &:nth-child(2n) {
-	background: $categoryBackgroundColor;
+	@include mixins.hoverBackgroundColor($categoryBackgroundColor, -5%);
   }
 
   &:nth-child(2n - 1) {
-	background: color.scale($categoryBackgroundColor, $lightness: -2%);
+	@include mixins.hoverBackgroundColor(color.scale($categoryBackgroundColor, $lightness: -2%), -5%);
   }
 }
 </style>
