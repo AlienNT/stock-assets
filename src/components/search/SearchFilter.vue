@@ -3,6 +3,7 @@ import { CategoryType } from '@/types/BasicTypes.ts'
 import { reactive, watch } from 'vue'
 import SearchFilterCategory from '@/components/search/SearchFilterCategory.vue'
 import { SearchFilterType } from '@/composables/useSearch.ts'
+import SearchFilterField from '@/components/search/fields/SearchFilterField.vue'
 
 const props = withDefaults(defineProps<SearchFilterType>(), {
   category: undefined,
@@ -48,7 +49,8 @@ function onInput(e: Event, fieldName: keyof SearchFilterType) {
 	  return state.filterFields[fieldName] = value as CategoryType
 	case 'editors_choice':
 	case 'safesearch':
-	  return state.filterFields[fieldName] = !!value as boolean
+	  console.log(Boolean(), value)
+	  return state.filterFields[fieldName] = !(value === 'true') as boolean
 	default:
 	  return
   }
@@ -63,38 +65,32 @@ function onInput(e: Event, fieldName: keyof SearchFilterType) {
 		@on-pick="onPickCategory"
 	/>
 	<div class="search-filter__size">
-	  <label class="search-filter-label size-field">
-		<input
-			type="number"
-			:value="state.filterFields.min_width"
-			@input="e => onInput(e, 'min_width')"
-		>
-	  </label>
-	  <label class="search-filter-label size-field">
-		<input
-			type="number"
-			:value="state.filterFields.min_height"
-			@input="e => onInput(e, 'min_height')"
-		>
-	  </label>
+	  <SearchFilterField
+		  type="number"
+		  title="width"
+		  :value="state.filterFields.min_width"
+		  @on-input="e => onInput(e, 'min_width')"
+	  />
+	  <SearchFilterField
+		  type="number"
+		  title="height"
+		  :value="state.filterFields.min_height"
+		  @on-input="e => onInput(e, 'min_height')"
+	  />
 	</div>
 	<div class="search-filter__checkboxes">
-	  <label class="search-filter-label check-field">
-		<input
-			type="checkbox"
-			:value="state.filterFields.editors_choice"
-			@input="e => onInput(e, 'editors_choice')"
-		>
-		<span class="title">editors choice</span>
-	  </label>
-	  <label class="search-filter-label check-field">
-		<input
-			type="checkbox"
-			:value="state.filterFields.safesearch"
-			@input="e => onInput(e, 'safesearch')"
-		>
-		<span class="title">safe search</span>
-	  </label>
+	  <SearchFilterField
+		  type="checkbox"
+		  title="editors choice"
+		  :value="state.filterFields.editors_choice"
+		  @on-input="e => onInput(e, 'editors_choice')"
+	  />
+	  <SearchFilterField
+		  type="checkbox"
+		  title="safe search"
+		  :value="state.filterFields.safesearch"
+		  @on-input="e => onInput(e, 'safesearch')"
+	  />
 	</div>
 	<button
 		class="search-filter__button"
@@ -107,6 +103,8 @@ function onInput(e: Event, fieldName: keyof SearchFilterType) {
 </template>
 
 <style scoped lang="scss">
+@use '../../assets/css/mixins.scss';
+
 .search-filter {
   max-width: 320px;
   padding: 15px;
@@ -114,38 +112,13 @@ function onInput(e: Event, fieldName: keyof SearchFilterType) {
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   background: #ffffff;
 }
 
 .search-filter__size {
   display: flex;
-  gap: 15px;
-
-  .size-field {
-
-  }
-}
-
-.check-field {
-  display: flex;
-  gap: 5px;
-
-  input {
-	width: fit-content;
-  }
-
-  .title {
-	padding: 5px 15px;
-  }
-}
-
-.search-filter-label {
-  input {
-	border-radius: 10px;
-	border: 1px solid #ccc;
-	padding: 5px 15px;
-  }
+  gap: 10px;
 }
 
 .search-filter__button {
@@ -154,5 +127,7 @@ function onInput(e: Event, fieldName: keyof SearchFilterType) {
   border-radius: 5px;
   cursor: pointer;
   margin-left: auto;
+  color: white;
+  @include mixins.hoverBackgroundColor(#585a9a)
 }
 </style>
