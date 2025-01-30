@@ -2,11 +2,14 @@
 
 withDefaults(defineProps<{
   title?: string,
-  value?: number,
+  value?: number | undefined,
   min?: number,
   max?: number,
 }>(), {
-  min: 0
+  min: 0,
+  value: undefined,
+  max: undefined,
+  title: ''
 })
 
 const emit = defineEmits(['onInput'])
