@@ -173,12 +173,17 @@ function scrollToViewport() {
 }
 
 .filter-col {
-  //height: 100%;
   display: flex;
   flex: 1;
 }
 .search-row {
   flex-direction: row;
   justify-content: space-between;
+  position: sticky;
+  top: var(--headerH);
+  z-index: 2;
+  background: #ffffff;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 </style>
