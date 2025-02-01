@@ -63,7 +63,7 @@ function calcOpacity(scrollHeight: number, windowHeight: number) {
 watch(() => routeName.value, () => {
   setHeaderOpacity()
 }, {
-  immediate: true,
+  immediate: true
 })
 
 watch(() => isDisabledScrollable.value, (value) => {
@@ -85,20 +85,20 @@ watch(() => isDisabledScrollable.value, (value) => {
   >
 	<div class="container">
 	  <div class="row header-row">
-		<VLogo class="col logo-col" />
+		<div class="col logo-col">
+		  <VLogo />
+		</div>
 		<SearchForm
 			v-if="isShowSearch"
 			class="col search-col"
 		/>
-		<transition name="fade" appear>
-		  <PagesNavigation
-			  v-if="isOpenNav"
-			  class="col navigation-col"
-			  :class="isMobileScreen && 'mobile-navigation'"
-			  :is-mobile="isMobileScreen"
-			  @on-click="setIsShowNavigation(false)"
-		  />
-		</transition>
+		<PagesNavigation
+			v-if="isOpenNav"
+			class="col navigation-col"
+			:class="isMobileScreen && 'mobile-navigation'"
+			:is-mobile="isMobileScreen"
+			@on-click="setIsShowNavigation(false)"
+		/>
 		<div
 			v-if="isMobileScreen"
 			class="col burger-col"
@@ -140,10 +140,18 @@ $opacity: var(--headerOpacity, 0);
   display: flex;
   align-items: center;
 }
+.logo-col,
+.burger-col {
+  flex: 1 1 auto;
+}
+.search-col {
+  min-width: 180px;
+}
 
-.navigation-col {
+.navigation-col, .burger-col {
   flex: none;
   transition: .2s ease;
+  justify-content: flex-end;
 }
 
 .mobile-navigation {
