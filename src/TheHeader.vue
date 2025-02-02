@@ -132,7 +132,7 @@ $opacity: var(--headerOpacity, 0);
 }
 
 .search-col {
-  flex: 1;
+  flex: 1 1 auto;
   max-width: 600px;
 }
 
@@ -140,10 +140,7 @@ $opacity: var(--headerOpacity, 0);
   display: flex;
   align-items: center;
 }
-.logo-col,
-.burger-col {
-  flex: 1 1 auto;
-}
+
 .search-col {
   min-width: 180px;
 }
