@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col detailed-page-content">
-          <slot name="content" />
+		  <slot name="content" />
         </div>
         <div class="col detailed-page-info">
           <slot name="info" />
@@ -15,15 +15,18 @@
 
 <style scoped lang="scss">
 $headerHeight: var(--headerH);
+$sectionPadding: 50px;
 $sectionHeight: calc(var(--vh) - #{$headerHeight});
+$contentHeight: calc($sectionHeight - ($sectionPadding * 2));
+
 .container {
   max-width: 1200px;
 }
 .detailed-page-template {
   display: flex;
   flex: 1;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: $sectionPadding;
+  padding-bottom: $sectionPadding;
   margin-top: $headerHeight;
   height: 100%;
 
@@ -32,6 +35,7 @@ $sectionHeight: calc(var(--vh) - #{$headerHeight});
   }
   @media all and (max-width: 768px) {
     padding-top: 0;
+	max-height: unset;
   }
 }
 
@@ -39,7 +43,8 @@ $sectionHeight: calc(var(--vh) - #{$headerHeight});
   flex: 1 1 65%;
   display: flex;
   flex-direction: column;
-  max-height: 100%;
+  position: relative;
+  max-height: $contentHeight;
 }
 
 .detailed-page-info {
@@ -50,5 +55,9 @@ $sectionHeight: calc(var(--vh) - #{$headerHeight});
 .detailed-page-content,
 .detailed-page-info {
   padding: 15px;
+}
+.content-wrapper {
+  position: absolute;
+  width: 100%;
 }
 </style>
