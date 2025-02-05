@@ -1,5 +1,32 @@
-# Vue 3 + TypeScript + Vite
+# Stock Assets
+***
+![Image](https://repository-images.githubusercontent.com/916306589/b1ec7bfe-9c22-48a5-9425-bca587d67663)
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Приложение для поиска и скачивания изображений и видео файлов с бесплатной (свободной) лицензией.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## API
+> [pixabay.com](https://pixabay.com/)
+
+## Языки и технологии
+
+***
+
+> * Vite
+> * Vue 3
+> * Vue Router
+> * Javascript ES6
+> * TypeScript
+> * PostCSS
+> * Sass (SCSS)
+> * [Vue Virtual Waterfall](https://github.com/lhlyu/vue-virtual-waterfall)
+
+## Установка
+
+*Клонировать репозиторий*
+
+```
+npm i
+```
+```
+vite
+```
